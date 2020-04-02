@@ -1,0 +1,323 @@
+{% load auth_extras %}
+{% load table_of_tasks_tags %}
+
+{% if request.path == '/accounts/password/reset/' or request.path == '/accounts/register/complete/' or request.path == '/accounts/activate/complete/' or request.path == '/accounts/password/change/'%}
+    {% setvar "../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/done/'%}
+    {% setvar "../../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/' %}
+    {% setvar "../../../../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/auth_password_reset_complete' %}
+    {% setvar "../../../../../../../" as root_path %}
+{% else %}
+    {% setvar "../../" as root_path %}
+{% endif %}
+
+        <div class="app" >
+            <div class="layout">
+                <!-- Side Nav START -->
+                <div class="side-nav  header-dark">
+                    <div class="side-nav-inner">
+                        <div class="side-nav-logo">
+                            <a href="../../">
+                                <div class="logo logo-dark" style="background-image: url('{{ root_path }}static/assets/images/logo/logo.png?v')"></div>
+                                <div class="logo logo-white" style="background-image: url('{{ root_path }}static/assets/images/logo/logo-white.png')"></div>
+                            </a>
+                            <div class="mobile-toggle side-nav-toggle">
+                                <a href="">
+                                    <i class="ti-arrow-circle-left"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <ul class="side-nav-menu scrollable">
+                            <li class="nav-item active">
+                                <a href="{{ root_path }}search/main_page">
+                                    <span class="icon-holder">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <span class="title">Простой поиск</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a href="{{ root_path }}full_search/user/main_page">
+                                    <span class="icon-holder">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <span class="title">Поиск по атрибутам</span>
+                                </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a href="{{ root_path }}solution_catalog/view_system_catalog/main_page">
+                                    <span class="icon-holder">
+                                        <i class="fas fa-clipboard"></i>
+                                    </span>
+                                    <span class="title">Тематический каталог</span>
+                                </a>
+                            </li>
+                            {% if request.user|access_group:"Freinds" %}
+                            <li class="nav-item active">
+                                <a href="{{ root_path }}edit_source_catalog/main_page">  <!-- задекорировал friends -->
+                                    <span class="icon-holder">
+                                        <i class="fas fa-book"></i>
+                                    </span>
+                                    <span class="title">Источники</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if request.user|access_group:"Admins"%}
+                            <hr>
+                            <li class="nav-item dropdown">
+                                <a class="dropdown-toggle" href="javascript:void(0);">
+                                    <span class="icon-holder">
+                                        <i class="fa fa-briefcase"></i>
+                                    </span>
+                                    <span class="title">Администратору</span>
+                                    <span class="arrow">
+                                        <i class="ti-angle-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item dropdown">
+                                    <a href="{{ root_path }}full_search/system/main_page"> <!-- задекорировал admin -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Поиск по атрибутам (sys)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ root_path }}solution_catalog/edit_system_catalog/main_page"> <!-- задекорировал admin -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Тематический каталог (sys)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ root_path }}edit_source_catalog/main_page_system">  <!-- задекорировал friends -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Источники (sys)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ root_path }}edit_mathattribute_catalog/main_page">  <!-- задекорировал admin -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Атрибуты (sys)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ root_path }}edit_source_catalog/edit_and_import">   <!-- задекорировал admin -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Импорт и редактор (sys)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a href="{{ root_path }}export/main_page_system">  <!-- задекорировал admin -->
+                                            <span class="icon-holder">
+                                                <i class="fas fa-search mr-1"></i>
+                                            </span>
+                                            <span>Отмеченные (sys)</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <hr>
+                            {% endif %}
+                                <li class="nav-item active">
+                                    <a href="{{ root_path }}export/main_page">
+                                        <span class="icon-holder">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="title">
+                                        Избранные задачи
+                                        </span>
+    {#                                    <span id="checkbox_counter" style="font-size: 0.8rem; background: #0070ed; color: white; border-radius: 5px; padding: 5px; margin-left: 20px">0(0)</span>#}
+                                    </a>
+                                </li>
+                            {% if request.user|access_group:"Readers" %}
+                                <li class="nav-item active">
+                                    <a href="{{ root_path }}solution_catalog/view_user_catalog/main_page">    <!-- задекорировал reader -->
+                                        <span class="icon-holder">
+                                            <i class="fas fa-folder"></i>
+                                        </span>
+                                        <span class="title">Мои папки</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-toggle" href="javascript:void(0);">
+                                        <span class="icon-holder">
+                                            <i class="fa fa-briefcase"></i>
+                                        </span>
+                                        <span class="title">Мои работы</span>
+                                        <span class="arrow">
+                                            <i class="ti-angle-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item dropdown">
+                                            <a href="{{ root_path }}test_generated/test_from_many_folders">   <!-- задекорировал reader -->
+                                                <span class="icon-holder">
+                                                    <i class="fas fa-search mr-1"></i>
+                                                </span>
+                                                <span>Создать работу</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a href="{{ root_path }}test_generated/created_tests">  <!-- задекорировал reader -->
+                                                <span class="icon-holder">
+                                                    <i class="fas fa-search mr-1"></i>
+                                                </span>
+                                                <span>Созданные работы</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- Side Nav END -->
+
+                <!-- Page Container START -->
+                <div class="page-container">
+                    <!-- Header START -->
+                    <div class="header navbar">
+                        <div class="header-container">
+                            <ul class="nav-left">
+                                <li>
+                                    <a class="side-nav-toggle" href="javascript:void(0);">
+                                        <i class="ti-view-grid mr-5"></i>
+                                    </a>
+                                </li>
+                                <!-- Squares menu-->
+                                {% if request.user|access_group:"Readers" %}
+                                <li class="notifications dropdown mr-3">
+                                    <span class="counter" id="square_counter">0(0)</span>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" style="text-size: 20px">
+                                        <i class="fas fa-check-square"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-copy mr-1"></i>
+                                                <span>Копировать к себе в папку</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-list-ol mr-1"></i>
+                                                <span>Создать работу</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-download mr-1"></i>
+                                                <span>Экспорт в tex/pdf/doc</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {% endif %}
+                                <!-- End Squares menu-->
+                                <!-- Stars menu-->
+                                {% if request.user|access_group:"Readers" %}
+                                <li class="notifications dropdown">
+                                    <span class="counter" id="checkbox_counter">0(0)</span>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-star"></i>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ root_path }}export/main_page">
+                                                <i class="fas fa-folder-open mr-1"></i>
+                                                <span>Открыть Избранное</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-copy mr-1"></i>
+                                                <span>Копировать к себе в папку</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript: create_test_from_cart()">    <!-- задекорировал reader -->
+                                                <i class="fas fa-list-ol mr-1"></i>
+                                                <span>Создать работу</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-download mr-1"></i>
+                                                <span>Экспорт в tex/pdf/doc</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-print mr-1"></i>
+                                                <span>Версия для печати</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript: clear_cart()">         <!-- чистый js задекорировать не могу -->
+                                                <i class="fas fa-eraser mr-1"></i>
+                                                <span>Очистить Избранное</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                               {% endif %}
+                                 <!-- End Stars menu-->
+{#                                <li>#}
+{#                                    <a href="javascript:void(0);">#}
+{#                                        <i class="fas fa-list-ol"></i>#}
+{#                                    </a>#}
+{#                                </li>#}
+                            </ul>
+                            <ul class="nav-right">
+                                {% if user.is_authenticated %}
+                                    <li class="user-profile dropdown">
+                                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+{#                                            <img class="profile-img img-fluid" src="assets/images/user.jpg" alt="">#}
+                                            <div class="user-info">
+                                                <span class="name pdd-right-5">{{ user }}</span>
+                                                <i class="ti-angle-down font-size-10"></i>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="">
+                                                    <i class="ti-user pdd-right-10"></i>
+                                                    <span>Профиль</span>
+                                                </a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="{{ root_path }}accounts/logout">
+                                                    <i class="ti-power-off pdd-right-10"></i>
+                                                    <span>Выйти</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                <li>
+                                    <a href="{{ root_path }}accounts/login">
+                                        Войти
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    </div>
+                    <!-- Header END -->
+
+                    <!-- Content Wrapper START -->
+                    <div class="main-content">

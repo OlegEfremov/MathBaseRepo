@@ -1,0 +1,13 @@
+{% extends 'Full_Search/common/main_page.html' %}
+
+{% block choose_target_folder_tree %}
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/choose_target_folder_tree.js?d"></script>
+{% endblock %}
+
+{% block enable_disable_elements %}
+    <script src="{{ path.PROJECT_STATIC }}Full_Search/js/enable_disable_elements.js?v"></script>
+{% endblock %}
+
+{% block massive_actions %}
+    <p>{% include  "Solution_Catalog/edit_system_catalog/Table_Of_Tasks/inc_massive_action.html" %}</p>
+{% endblock %}

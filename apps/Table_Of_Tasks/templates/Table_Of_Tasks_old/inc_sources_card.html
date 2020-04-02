@@ -1,0 +1,5 @@
+<div class="collapse" id="tasksource{{ task.id }}">Источники:
+    {% for tasknumber in task.taskNumber.all %}
+        {{ tasknumber.source }}, №{{ tasknumber.body }}<br>
+    {% endfor %}
+</div>

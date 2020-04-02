@@ -1,0 +1,15 @@
+            <table class="table">
+
+            {% for test in tests.all %}
+            <tr>
+                <td>
+                    <a href="../../test_generated/{{ test.id }}/" target="_blank">
+                    №{{ test.id }}. {{ test.name }}
+                    </a>
+                </td>
+                <td>
+                    <a href="../../admin/Main/test_generated/{{ test.id }}/change/" data-toggle="tooltip" title="Редактировать тест" target="_blank"><i class="fas fa-edit"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </table>

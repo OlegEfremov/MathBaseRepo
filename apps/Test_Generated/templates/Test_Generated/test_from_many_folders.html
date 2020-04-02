@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/view_folders_tree.js?vc"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/add_folder_to_test.js?vvf"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/delete_folder_from_test.js?vc"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/create_test_from_many_folders.js?vgv"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/create_test_template.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/create_test_by_template.js?ch"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/make_new_test.js?v"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/get_array_of_inputs_values.js?v"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/delete_template_from_db.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/see_template.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/var_template_id.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Main/test_folder_tree.js?n"></script>
+
+</head>
+
+<body>
+{#{% include "navbar.html" %}#}
+
+{% include "Test_Generated/inc_modal_test_name_and_comment.html" %}
+{% include "Test_Generated/inc_modal_template_name_and_comment.html" %}
+{% include "Test_Generated/inc_modal_test_by_template_name_and_comment.html" %}
+
+{% include "inc_sidebar_begin.html" %}
+
+<div class="container-fluid" style="overflow-x: auto">
+    <div class="row">
+        <h3>Cформируйте из папок шаблон работы:</h3><br>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div style="background: #e4e3f9; border-radius: 5px; padding: 15px; border-width: 1px; border-style:solid; border-color: #b8b7cc">
+                <div id="folders_tree_for_test">test</div>
+            </div>
+        </div>
+        <div class="col">
+            <br><br><br>
+            <button class="btn btn-primary btn-sm" onclick='add_folder_to_test()'>Добавить<br> папку<br> в шаблон -></button>
+        </div>
+        <div class="col">
+              <div class="btn-group" role="group" align="center">
+                <button class="btn btn-primary btn-sm" onclick='$("#create_test_modal").modal("show");'>Cоздать работу</button>
+                <button class="btn btn-primary btn-sm" onclick='$("#create_template_modal").modal("show");'>Cохранить шаблон работы</button>
+              </div>
+            <br><br>
+            <div style="background: #e4e3f9; border-radius: 5px; padding: 15px; border-width: 1px; border-style:solid; border-color: #b8b7cc">
+                Шаблон работы:
+                <div id="folders_for_test"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <br><br>
+            <h3>Ранее сохраненные шаблоны:</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="templates">
+                <table class="table">
+                {% for test_template in templates %}
+                    <tr>
+                        <td>
+                            <button class="btn btn-link" onclick='create_test_by_template_modal("{{ test_template.id }}")'>Cоздать работу по шаблону {{ test_template.id }}. {{ test_template.name }}</button>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-link" onclick="delete_template_from_db({{ test_template.id }})" id="delete_template_button_{{ test_template.id }}"><i class="fas fa-eye"></i></button>
+                                <button class="btn btn-link" onclick='location.href ="../../admin/Main/test_template/{{ test_template.id }}/change/"'><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-link" onclick="see_template({{ test_template.id }})" id="see_template_button_{{ test_template.id }}"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

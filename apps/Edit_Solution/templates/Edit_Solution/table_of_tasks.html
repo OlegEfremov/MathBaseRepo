@@ -1,0 +1,38 @@
+{% extends 'Table_Of_Tasks/table_of_tasks.html' %}
+{% load auth_extras %}
+
+{% block task_title %}
+    №{{ task.id }}.
+
+    <div class="btn-group" role="group">
+
+    <button onclick="location.href = ROOT_PATH+'edit_task/main_page_{{ task.id }}';" class="btn btn-link">
+        <a href="#" data-toggle="tooltip" title="Редактировать задачу">
+            <i class="fas fa-edit"></i>
+        </a>
+    </button>
+
+
+</div>
+{% endblock %}
+
+{% block checkboxes_page_all%}{% endblock %}
+{% block task_copy_move_delete_buttons %}{% endblock %}
+{% block sol_copy_move_delete_buttons %}{% endblock %}
+{% block checkbox_sol %}{% endblock %}
+{% block another_sol_copy_move_delete_buttons%}
+    {% if user.is_authenticated%}
+        <div class="btn-group" role="group" aria-label="Basic example">
+            {% if request.user|has_group:"Admins" %}
+                <button onclick="location.href = ROOT_PATH+'edit_solution/main_page_{{ sol.id }}';" class="btn btn-link">
+                    <a href="#" data-toggle="tooltip" title="Редактировать решение">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </button>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block another_sol_checkbox %}{% endblock %}
+
+

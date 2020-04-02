@@ -1,0 +1,17 @@
+{% load auth_extras %}
+
+    {% if user.is_authenticated and request.path == '/solution_catalog/view_user_catalog/show_tasks' or request.user|has_group:"Admins" and  request.path == '/solution_catalog/edit_system_catalog/show_tasks'%}
+        <div>
+            <div id="folder_access_status" hidden>{{ sol_folder.access }}</div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" value="" id="access_checkbox" onclick="change_folder_acces_status(this.checked)">
+              <label class="form-check-label" for="acces_checkbox">Открыть доступ к папке.</label>
+            </div><br>
+            <span id="link_for_test"></span><br>
+            <div class="btn-group" role="group">
+                <button onclick="reorder_tasks(action_data['view_folder'], action_data['page'], 'show_tasks')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Перенумеровать задачи"><i class="fas fa-list-ol"></i></button>
+                <button onclick="location.href = 'export_folder_'+action_data['view_folder']" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Экспортировать задачи из папки"><i class="fas fa-download"></i></button>
+                <button onclick="create_task_in_folder()" class="btn btn-primary btn-sm"  data-toggle="tooltip" data-placement="top" title="Создать задачу"><i class="fas fa-plus-square"></i></button>
+            </div>
+        </div>
+    {% endif %}

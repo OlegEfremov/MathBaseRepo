@@ -1,0 +1,29 @@
+# Place this file int /etc/systemd/system/gunicorn.service
+# Start: sudo systemctl start gunicorn
+# Restart: sudo systemctl restart gunicorn
+# Stop: sudo systemctl stop gunicorn
+# Status: sudo systemctl status gunicorn
+#
+# Useful link https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04#check-for-the-gunicorn-socket-file
+
+
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+PIDFile=/run/gunicorn/pid
+User=leobreslav
+Group=leobreslav
+RunningDirectory=gunicorn
+WorkingDirectory=/home/leobreslav/LBBASE
+ExecStart=/home/leobreslav/venv/bin/gunicorn --workers 3 --timeout 60 --pid /home/leobreslav/gunicorn/pid   \
+          --bind unix:/home/leobreslav/gunicorn/gunicorn.socket LBBase_v_0_36.wsgi:application
+
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

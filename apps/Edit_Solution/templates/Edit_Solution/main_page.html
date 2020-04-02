@@ -1,0 +1,54 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit sol</title>
+
+    {% include 'head_script.html' %}
+    <script>var solid="{{ sol.id }}"</script>
+    {% if request.user|has_group:"Admins" %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/mathattr_tree_admin.js?vv"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/actions.js?v"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/create_mathattr_folder.js?v"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/create_mathattr.js?v"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/dynamic_element.js?v"></script>
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/mathattr_tree_guest.js?s"></script>
+    {% endif %}
+    <script src="{{ path.PROJECT_STATIC }}Edit_Solution/js/solattr_tree.js?v"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Solution/js/save_solution.js?ppo"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Solution/js/show_tasks.js?"></script>
+
+
+</head>
+<body>
+
+{#    {% include "navbar.html" %}#}
+
+{% include "inc_sidebar_begin.html" %}
+    <div >Редактирование Решения №{{ sol.id }}.
+                <a href="../../admin/Main/solution/{{ sol.id }}/change/" data-toggle="tooltip" title="Загрузить рисунок" target="_blank">
+                    <i class="fas fa-edit"></i>
+                </a>
+    </div>
+
+    <div class="container-fluid" style="overflow-x: auto">
+        <div class="row"><br></div>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <div id="table_of_tasks"></div>
+                {% include 'Edit_Solution/inc_sol_pics.html' %}
+                {% include 'Edit_Solution/inc_form_solution_edit.html' %}
+                {% include 'Edit_Solution/inc_add_attribute_to_solution.html' %}
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="row"><br></div>
+    </div>
+
+{% include "inc_sidebar_end.html" %}
+</body>
+</html>

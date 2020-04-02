@@ -1,0 +1,31 @@
+{#<!-- Button trigger modal -->#}
+{#<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">#}
+{#</button>#}
+
+<!-- Modal -->
+
+<div class="modal fade bd-example-modal-lg" id="add_attribute_modal" tabindex="-1" role="dialog" aria-labelledby="add_attribute_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="add_attribute_ModalLabel">Выберите атрибуты, которые нужно добваить к выбранным решениям</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="container-fluid" style="overflow-x: auto">
+            <div class="row">
+              <div class="col-6"> <div id="attr_tree_in_modal">test</div></div>
+
+              <div class="col-5"><div id="attr_to_add_in_modal">test</div></div>
+            </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_attribute_modal" onclick="resume_action_after_modal_confirm()" id="add_attr_modal_confirm_button">Добавить</button>
+     </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+{% load auth_extras %}
+<style>
+    .lbalignright { float:right }
+</style>
+{{ user.username }}, {{ user.is_authenticated }},
+{% if request.user|has_group:"Admins" %}
+    <p>User is Admin
+{% else %}
+    <p>User isn't Admin</p>
+{% endif %}
+
+
+
+<table class="table table-bordered">
+{% for task in objects %}
+    <tr id = "task{{ task.id }}">
+        <td>
+        <div class="form-check-inline">
+            <input name="checkbox_task" class="form-check-input" type="checkbox" value="" id="checkbox_task_{{ task.id }}">
+            <label class="form-check-label" for="checkbox_task_{{ task.id }}">№{{ task.id }}.</label>
+        </div>
+            <span class="lbalignright">
+                <a href="#" data-toggle="tooltip" title="Добавить решение к задаче">
+                    <a href="../solution/create_newsol_for_task_{{ task.id }}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </a>
+
+                <a href="#" data-toggle="tooltip" title="Редактировать задачу">
+                    <a href="../task/edittask/{{ task.id }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </a>
+                <a href="#" data-toggle="tooltip" title="Удалить задачу из базы данных">
+                    <a data-toggle="collapse" href="#delete_task_{{ task.id }}" aria-expanded="false" aria-controls="solution{{ task.id }}">
+                       <i class="fas fa-trash-alt"></i>
+                    </a>
+                </a>
+                <span class="lbalignright">
+                    <span class="collapse" id="delete_task_{{ task.id }}">
+                        &nbsp&nbsp<a href="../task/deletetask/{{ task.id }}">Удалить</a>
+                        <a data-toggle="collapse" href="#delete_task_{{ task.id }}" aria-expanded="false" aria-controls="solution{{ task.id }}">Отменить</a>
+                    </span>
+                </span>
+            </span>
+            {{ task.body|linebreaks}}
+            <a data-toggle="collapse" href="#taskans{{ task.id }}" aria-expanded="false" aria-controls="taskans{{ task.id }}">Ответ</a>
+            <a data-toggle="collapse" href="#tasksource{{ task.id }}" aria-expanded="false" aria-controls="tasksource{{ task.id }}">Источники</a>
+            {% for sol in task.solutions.all %}
+                {% if sol in solutions_set %}
+                    <a data-toggle="collapse" href="#solution{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}">{{ sol.name }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if task.solutions.all|has_different_sols:solutions_set %}
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Другие решения
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {% for sol in task.solutions.all %}
+                        {% if sol not in solutions_set %}
+                            <a class="dropdown-item" data-toggle="collapse" href="#solution{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}">{{ sol.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% for sol in task.solutions.all %}
+                <div class="collapse" id="solution{{ sol.id }}">
+                    <div class="card mb-1">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                {% if sol in solutions_set %}
+                                <div class="form-check-inline">
+                                    <input name="checkbox_filtered_sol" class="form-check-input" type="checkbox" value="" id="checkbox_sol_{{ sol.id }}">
+                                    <label class="form-check-label" for="checkbox_sol_{{ sol.id }}">{{ sol.name }}.</label>
+                                </div>
+                                    {% else %}
+                                    {{ sol.name }}.
+                                {% endif %}
+                                <a data-toggle="collapse" href="#solution{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}"><i class="fas fa-minus-square"></i></a>
+                                <span class="lbalignright">
+                                    <span class="collapse" id="delete_solution_{{ sol.id }}">
+                                        &nbsp&nbsp<a href="../solution/deletesol/{{ sol.id }}">Удалить</a>
+                                        <a data-toggle="collapse" href="#delete_solution_{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}">Отменить</a>
+                                    </span>
+                                </span>
+                                <span class="lbalignright">
+                                    <a href="../solution/editsol/{{ sol.id }}"><i class="fas fa-edit"></i></a>
+                                    <a data-toggle="collapse" href="#delete_solution_{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}"><i class="fas fa-trash-alt"></i></a>
+
+                                </span>
+
+                            </h6>
+                            {{ sol.body }}<br>
+                            <a data-toggle="collapse" href="#attr{{ sol.id }}" aria-expanded="false" aria-controls="attr{{ sol.id }}">Атрибуты</a>
+                            <div class="collapse" id="attr{{ sol.id }}">
+                                {% if not sol.mathAttribute.all  %}
+                                    Решению не присвоены атрибуты.
+                                {% endif %}
+                                {% for attr in sol.mathAttribute.all %}{{ attr }}, {% endfor %}
+                            </div>
+                         </div>
+                     </div>
+                </div>
+            {% endfor %}
+            <div class="collapse" id="taskans{{ task.id }}">Ответ: {{ task.ans | linebreaks}}</div>
+            <div class="collapse" id="tasksource{{ task.id }}">Источники:
+            {% for tasknumber in task.taskNumber.all %}
+                {{ tasknumber.source }}, №{{ tasknumber.body }}<br>
+            {% endfor %}
+             </div>
+        </td>
+</tr>
+{% endfor %}
+</table>
+
+
+{% include "AdvSearch/pagination.html"%}
+

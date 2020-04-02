@@ -1,0 +1,11 @@
+<div class="form-group">
+    <form method="post">
+        {% csrf_token %}
+        Название:<br>
+        {{ solform.name }}<br>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Вставить рисунок" onclick="typeInTextarea($('#id_body'), '@bimg@path_to_picture@size=170@style=display: block; margin-left: auto; margin-right: auto;@eimg@')" id="insert_pic_button"><i class="fas fa-image"></i></button><br>
+        Решение:<br>
+        {{ solform.body }}<br>
+        <input type="button" class="btn btn-primary" value="Cохранить" onclick="save_solution(solid)"><br>
+    </form>
+</div>

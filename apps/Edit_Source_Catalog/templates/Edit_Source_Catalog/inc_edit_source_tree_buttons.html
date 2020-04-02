@@ -1,0 +1,18 @@
+{% load auth_extras %}
+
+{% if request.user|has_group:"Admins" %}
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Создать папку" onclick="create_source_folder()" id="create_source_folder_button"><i class="fas fa-folder"></i></button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Создать источник" onclick="create_source()" id="create_source_button"><i class="fas fa-book"></i></button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Создать главу" onclick="create_chapter()" id="create_chapter_button"><i class="fas fa-list"></i></button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Создать номер задачи" onclick="create_task_number()"id="create_task_number_button"><i class="far fa-circle"></i></button>
+      <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Создать задачу" onclick="create_task()" id="create_task_button"><i class="fas fa-circle fa-xs"></i></button>
+      {% if not 'edit_task' in request.path %}
+          <button type="button" class="btn btn-secondary"  data-toggle="tooltip" data-placement="top" title="Импортировать задачи" onclick="import_tasks_show_modal()" id="import_tasks_button"><i class="fas fa-download"></i></button>
+          <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Экспортировать номера задач" onclick="export_tasknumbers_csv()" id="export_tasknumbers_csv_button">TN<i class="fas fa-upload"></i></button>
+          <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Экспортировать условия задач" onclick="export_tasks_csv()" id="export_tasks_csv_button">T<i class="fas fa-upload"></i></button>
+      {% endif %}
+    </div>
+    <br>
+    <br>
+{% endif %}

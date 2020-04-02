@@ -1,0 +1,63 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     {% include "head_script.html" %}
+
+    {% if user.is_authenticated %}
+        <script src="../../static/Export/js/show_tasks_cart.js?v"></script>
+    {% else %}
+        <script src="../../static/Export/js/show_tasks_cart_guest.js?v"></script>
+    {% endif %}
+
+    <script src="../../static/Export/js/remove_task_from_cart.js?hn"></script>
+    <script src="../../static/Export/js/up_down.js?c"></script>
+    <script src="../../static/Export/js/show_hide_toggle.js?f"></script>
+    <script src="../../static/Export/js/init_main_page.js?f"></script>
+    <script src="../../static/Export/js/download_file.js?"></script>
+
+    <script src="../../static/Export/js/copy_cart_to_folder.js?dfg"></script>
+    <script src="../../static/Export/js/subtract_cart_from_folder.js?fg"></script>
+    <script src="../../static/Solution_Catalog/js/view_user_catalog/choose_target_folder_tree.js?vsv"></script>
+
+    <script src="../../static/Solution_Catalog/js/common/copy_move_remove_task_or_solution.js?jv"></script>
+    <script src="../../static/Solution_Catalog/js/common/global_vars.js?"></script>
+    <script src="../../static/Solution_Catalog/js/common/enable_disable_elements.js?v"></script>
+
+    <script src="../../static/Solution_Catalog/js/common/edit_user_catalog.js?v"></script>
+
+
+    <style> .vakata-context {z-index:1100 !important;} </style>
+</head>
+<body>
+
+{#{% include "navbar.html" %}#}
+{% if user.is_authenticated %}
+{% include "Solution_Catalog/common/page/inc_choose_target_folder_modal.html" %}
+{% endif %}
+{% include "Test_Generated/inc_modal_test_by_star_folder.html" %}
+
+{% include "inc_sidebar_begin.html" %}
+    <div class="container-fluid" style="overflow-x: auto">
+        <div class="row">
+            <button onclick='download()'>Экспорт в ТеХ</button>
+            <script src="{{ path.PROJECT_STATIC }}Main/export_as_file.js?dmnh"></script>
+            <button onclick="export_page_as_file('pdf')">Экспорт в pdf</button>
+                {% if user.is_authenticated %}
+                    <button onclick='copy_cart_to_folder()'>Копировать в свой каталог</button>
+                    <button onclick='print()'>Печать</button>
+                    <button onclick="$('#create_test_by_star_folder_modal').modal('show')">Cоздать тест</button>
+                    <button onclick='subtract_cart_from_folder()'>Исключить из папки</button>
+                {% endif %}
+                <button onclick='clear_cart()'>Очистить избранное</button>
+        </div>
+
+        <div id="tasks_cart"></div>
+
+    </div>
+{% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

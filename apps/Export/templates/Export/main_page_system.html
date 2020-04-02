@@ -1,0 +1,58 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     {% include "head_script.html" %}
+
+    <script src="../../static/Export/js/show_tasks_cart.js?v"></script>
+    <script src="../../static/Export/js/remove_task_from_cart.js?"></script>
+    <script src="../../static/Export/js/up_down.js?c"></script>
+    <script src="../../static/Export/js/show_hide_toggle.js?f"></script>
+    <script src="../../static/Export/js/init_main_page.js?f"></script>
+    <script src="../../static/Export/js/download_file.js?"></script>
+
+    <script src="../../static/Export/js/clear_cart.js?fg"></script>
+    <script src="../../static/Export/js/copy_cart_to_folder.js?dfg"></script>
+    <script src="../../static/Export/js/subtract_cart_from_folder.js?fg"></script>
+    <script src="../../static/Solution_Catalog/js/edit_system_catalog/choose_target_folder_tree.js?vsv"></script>
+
+    <script src="../../static/Solution_Catalog/js/common/copy_move_remove_task_or_solution.js?"></script>
+    <script src="../../static/Solution_Catalog/js/common/global_vars.js?dc"></script>
+    <script src="../../static/Solution_Catalog/js/common/enable_disable_elements.js?v"></script>
+
+    <script src="../../static/Solution_Catalog/js/common/edit_user_catalog.js?v"></script>
+
+    <style> .vakata-context {z-index:1100 !important;} </style>
+</head>
+<body>
+
+{#{% include "navbar.html" %}#}
+
+{% include "inc_sidebar_begin.html" %}
+{% include "Solution_Catalog/common/page/inc_add_attribute_modal.html" %}
+
+{% if user.is_authenticated %}
+{% include "Solution_Catalog/common/page/inc_choose_target_folder_modal.html" %}
+{% endif %}
+
+<button onclick='download()'>Экспорт в ТеХ</button>
+{% if user.is_authenticated %}
+
+    {% if request.user|has_group:"Admins" %}
+        <button onclick='copy_cart_to_folder()'>Копировать в системный каталог</button>
+        <button onclick='massive_add_attribute()'>Добавить всем решениям атрибут</button>
+    {% endif %}
+
+<button onclick='subtract_cart_from_folder()'>Исключить из папки</button>
+{% endif %}
+<button onclick='clear_cart()'>Очистить избранное</button>
+<br><br>
+<div id="tasks_cart"></div>
+
+{% include "inc_sidebar_end.html" %}
+
+</body>
+</html>
+

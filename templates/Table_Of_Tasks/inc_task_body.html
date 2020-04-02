@@ -1,0 +1,14 @@
+<table class="table table-borderless" id="task_body_table"  style="background-color: #f6f7fb;">
+<td>
+    <div id="task_body_{{ task.id }}">{{ task.body|linebreaks }}</div>
+</td>
+<td style="display: none;">
+    <div id="ttask_pic_{{ task.id }}">
+        {% if task.pic_task %}
+        <img src="{{ task.pic_task.url }}" width="200">
+        {% else %}
+            нет рисунка
+        {% endif %}
+    </div>
+</td>
+</table>

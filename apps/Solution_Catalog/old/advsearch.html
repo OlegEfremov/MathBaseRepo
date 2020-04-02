@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Search</title>
+
+    <script src="{{ path.PROJECT_STATIC }}js/jquery/jquery-3.2.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ path.PROJECT_STATIC }}js/bootstrap/css/bootstrap.min.css">
+    <script src="{{ path.PROJECT_STATIC }}js/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    {% include "mathjax.html" %}
+    <script type="text/javascript" src="{{ path.PROJECT_STATIC }}js/MathJax/MathJax.js"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}js/jstree/dist/jstree.min.js"></script>
+    <link rel="stylesheet" href="{{ path.PROJECT_STATIC }}js/jstree/dist/themes/default/style.min.css" />
+
+    <script src="{{ path.PROJECT_STATIC }}js/fontawesome/svg-with-js/js/fontawesome-all.js"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}AdvSearch/js/advsearch_tree.js?kgs"></script>
+    <script src="{{ path.PROJECT_STATIC }}AdvSearch/js/mathattr_in_filter_tree.js?ghsss"></script>
+    <script src="{{ path.PROJECT_STATIC }}AdvSearch/js/show_tasks.js?sjvgg"></script>
+
+     <script type="text/javascript">
+         var i=0;
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+                 $('#content').toggleClass('one');
+             });
+         });
+     </script>
+
+     <style>
+        .wrapper {
+            display: flex;
+            align-items: stretch;
+        }
+
+        #sidebar {
+            min-width: 600px;
+            max-width: 600px;
+            background: antiquewhite;
+            color: black;
+            transition: all 0.3s;
+        }
+
+
+        #sidebar.active {
+            margin-left: -555px;
+        }
+
+        #content {
+            background: floralwhite;
+            padding: 20px;
+            min-height: 100vh;
+            min-width: calc(100% - 600px);
+            transition: all 0.3s;
+        }
+
+        #content.one {
+            background: floralwhite;
+            padding: 20px;
+            min-height: 100vh;
+            min-width: calc(100% - 45px);
+            transition: all 0.3s;
+        }
+    </style>
+
+     <style>
+        .lbalignright { float:right }
+    </style>
+
+
+
+
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    <div class="wrapper">
+        <nav id="sidebar">
+            <br>
+
+
+            <div class="row">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-10">
+                    <div class="row">
+                    <div>Все аттрибуты:<br><br></div>
+                    </div>
+                    <div class="row"><div class="tree" id="attr_tree"></div></div>
+                    <hr>
+                    <div class="row">
+                    <div>Текущий фильтр:<br><br></div>
+                    </div>
+                    <div class="row" id="filter_tree"></div><br>
+                    <div class="row">
+                        <a href="#" data-toggle="tooltip" title="Очистить фильтр">
+                            <button onclick="clear_filter()" class="btn btn-link">
+                                <i class="fas fa-eraser"></i>
+                            </button>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Создать папку">
+                            <button onclick="create_new_node()" class="btn btn-link">
+                                <i class="fas fa-folder"></i>
+                            </button>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Создать папку">
+                            <button onclick="print_json1()" class="btn btn-link">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Сохранить поисковый запрос">
+                            <form action="save_filter_page">
+                                <button type="submit" class="btn btn-link">
+                                    <i class="fas fa-save"></i>
+                                </button>
+                           </form>
+                        </a>
+{% comment %}
+                        <a href="#" data-toggle="tooltip" title="Напечатать json 1">
+                            <button onclick="print_json1()" class="btn btn-link">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </a>{% endcomment %}
+
+{#                        <a href="#" data-toggle="tooltip" title="Напечатать json 2">#}
+{#                            <button onclick="print_json2()" class="btn btn-link">#}
+{#                                <i class="fas fa-print"></i>#}
+{#                            </button>#}
+{#                        </a>#}
+
+                        <a href="#" data-toggle="tooltip" title="Создать решения всем пустым задачам">
+                             <form action="create_new_sol_for_empty_tasks">
+                                <button type="submit" class="btn btn-link">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </button>
+                            </form>
+                        </a>
+                        <form class="form-inline">
+                           <label for="select_tasks_per_page">Показывать по &nbsp;</label>
+                            <select class="form-control form-control-sm" id="select_tasks_per_page" onchange="localStorage.setItem('per_page', this.value)">
+                                <option value="1">10</option>
+                                <option value="2">25</option>
+                                <option value="3">50</option>
+                                <option value="4">75</option>
+                                <option value="5">100</option>
+                            </select>
+                        </form>
+                        <a href="#" data-toggle="tooltip" title="Показать задачи, удовлетворяющие фильтру">
+                            <button onclick="show_tasks('1'); localStorage.setItem('view_type', 'show_tasks')" class="btn btn-link">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </a>
+                        <a href="#" data-toggle="tooltip" title="Показать задачи без решений">
+                            <button onclick="show_tasks_without_solution('1')" class="btn btn-link">
+                                <i class="fas fa-battery-empty"></i>
+                            </button>
+                        </a>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div>Атрибуты, которые есть в отфильтрованных решениях:<br><br></div>
+                    </div>
+                    <div class="row">
+                        <div class="tree" id="mathattr_in_filter_tree"></div>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                        <span class="lbalignright">
+                            <button type="button" id="sidebarCollapse" class="btn btn-primary navbar-btn" onclick="$('#toggle_slide_bar_icon').toggleClass('fa-chevron-circle-right fa-chevron-circle-left')"><i id='toggle_slide_bar_icon' class="fas fa-chevron-circle-left"></i></button>
+                        </span>
+                </div>
+             </div>
+        </nav>
+
+            <div id="content">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkbox_all_sol">
+                    <label class="form-check-label" for="checkbox_all_sol">Отметить все отфильтрованные решения</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkbox_all_task">
+                    <label class="form-check-label" for="checkbox_all_task">Отметить все задачи</label>
+                </div>
+
+
+
+            <div class="row v-scroll" id="table_of_tasks"></div>
+        </div>
+    </div>
+
+
+
+
+
+
+</body>
+</html>
+

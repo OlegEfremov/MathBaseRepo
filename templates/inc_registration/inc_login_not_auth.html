@@ -1,0 +1,64 @@
+<br>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                Добро пожаловать! Это база задач по математике. Вы можете воспользоваться каталогом задач или тематическим поиском.
+                Зарегистрируйтесь, чтобы получить доступ ко всем функциям сайта.
+            </div>
+
+            <div class="col-5">
+
+                <div id="header">
+                    <hr/>
+                    <p>Войдите или <a href="{% url 'registration_register' %}">зарегистрируйтесь</a>!</p>
+                </div>
+
+            <div id="content">
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-error">
+                                    <font color="red"><strong>{{ error|escape }}</strong></font>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-error">
+                                <font color="red"><strong>{{ error|escape }}</strong></font>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="id_username">Имя пользователя:</label>
+                        <input type="text" class="form-control" name="username" maxlength="254" autofocus id="id_username" required aria-describedby="emailHelp" placeholder="Enter username">
+{#                        <small id="loginHelp" class="form-text text-muted">Какая-то подсказка про логин.</small>#}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_password">Пароль:</label>
+                        <input type="password" class="form-control" name="password" maxlength="254" autofocus id="id_password" required aria-describedby="emailHelp" placeholder="Enter password">
+{#                        <small id="loginHelp" class="form-text text-muted">Какая-то подсказка про логин.</small>#}
+                    </div>
+                  <input type="submit" class="btn btn-primary" value="Войти" />
+                  <input type="hidden" name="next" value="/main/main_page" />
+                </form>
+
+                <p><a href="{% url 'auth_password_reset' %}">Забыли пароль?</a></p>
+
+            </div>
+
+            <div id="footer">
+                <hr />
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+

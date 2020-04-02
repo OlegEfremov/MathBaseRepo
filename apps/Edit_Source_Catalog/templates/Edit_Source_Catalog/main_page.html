@@ -1,0 +1,92 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Math Attribute Tree</title>
+
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/global.js?sjf"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/actions.js?vb"></script>
+
+    {% if request.user|has_group:"Admins" %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_admin.js?mt"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/disable_create_buttons.js?"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/export_csv.js?b"></script>
+
+        <link rel="stylesheet" href="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/css/autocomplete_source.css">
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/find_task_by_source_and_number.js?s"></script>
+
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_guest.js?vc"></script>
+    {% endif %}
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/import_tasks.js?fdsd"></script>
+
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/show_tasks.js?vdf"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/edit_user_catalog.js?v"></script>
+
+    {% if request.path == '/edit_source_catalog/main_page_system' %}
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/choose_target_folder_tree.js?jjjv"></script>
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/view_user_catalog/choose_target_folder_tree.js?iuhg"></script>
+    {% endif %}
+
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/copy_move_remove_task_or_solution.js?vh"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/enable_disable_elements.js?vj"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/global_vars.js?dc"></script>
+
+
+    {# it is needed to see jstree context menu in modal #}
+    <style> .vakata-context {z-index:1100 !important;} </style>
+
+
+</head>
+
+    <body>
+
+    {% include "inc_sidebar_begin.html" %}
+
+    <div id="all_sources" hidden>{{ sources.all|join:'@@' }}</div>
+{#        {% include "navbar.html" %}#}
+
+        {% include "Edit_Source_Catalog/inc_import_tasks.html" %}
+
+        {% if user.is_authenticated %}
+            {% include "Solution_Catalog/common/page/inc_choose_target_folder_modal.html" %}
+        {% endif %}
+
+        <div class="container-fluid" style="overflow-x: auto">
+            <div class="row"><br></div>
+
+            <div class="row">
+              <div class="col-auto">
+                  <button class='btn btn-primary btn-xs' onclick="hide_left_panel()"><i class="fas fa-bars"></i></button>
+                  <div style="background: #e4e3f9; border-radius: 5px; padding: 15px; border-width: 1px; border-style:solid; border-color: #b8b7cc" id="left_panel">
+                      {% include "Edit_Source_Catalog/inc_search_form.html" %}<br>
+                      {% include "Solution_Catalog/common/page/inc_input_per_page.html" %}<br>
+                      {% include "Edit_Source_Catalog/inc_edit_source_tree_buttons.html" %}
+
+{#                      {% if request.path != '/edit_source_catalog/main_page' %}#}
+                      <div class="toggle-checkbox checkbox-inline toggle-sm mrg-top-10"  data-toggle="tooltip" data-placement="top" title="Показать только те задачи, которые находятся вне каталога">
+                            <input type="checkbox" name="toggle_tasks_only_outside_catalog" id="toggle_tasks_only_outside_catalog" onclick="">
+                            <label for="toggle_tasks_only_outside_catalog">&nbsp;</label>
+                      </div>
+{#                      {% endif %}#}
+
+
+
+                      <div id="source_tree">Все источники</div>
+                  </div>
+              </div>
+              <div class="col">
+                  <div id="table_of_tasks"></div>
+              </div>
+            </div>
+        </div>
+    {% include "inc_sidebar_end.html" %}
+</body>
+</html>

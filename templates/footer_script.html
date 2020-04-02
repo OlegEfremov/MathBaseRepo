@@ -1,0 +1,70 @@
+{% load auth_extras %}
+{% load table_of_tasks_tags %}
+
+{% if request.path == '/accounts/password/reset/' or request.path == '/accounts/register/complete/' or request.path == '/accounts/activate/complete/' or request.path == '/accounts/password/change/'%}
+    {% setvar "../../../static/" as static_path %}
+{% elif request.path == '/accounts/logout/'%}
+    {% setvar "../../../static/" as static_path %}
+{% elif request.path == '/accounts/password/reset/done/'%}
+    {% setvar "../../../../static/" as static_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/' %}
+    {% setvar "../../../../../../static/" as static_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/auth_password_reset_complete' %}
+    {% setvar "../../../../../../../static/" as static_path %}
+{% else %}
+    {% setvar "../../static/" as static_path %}
+{% endif %}
+
+    <!-- build:js {{ static_path }}assets/js/vendor.js -->
+    <!-- plugins js -->
+
+{#    <script src="https://code.jquery.com/jquery-3.3.1.min.js"  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="  crossorigin="anonymous"></script>#}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>#}
+
+
+    <script src="{{ static_path }}assets/vendors/PACE/pace.min.js"></script>
+    <script src="{{ static_path }}assets/vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ static_path }}js/MathJax/MathJax.js"></script>
+    <!-- endbuild -->
+
+    <!-- core js -->
+    <script src="{{ static_path }}assets/js/app.js?v"></script>
+
+    <!-- Insert your dependencies here -->
+    <script src="{{ static_path }}js/csrf.js"></script>
+    <script src="{{ static_path }}js/get_root_path.js"></script>
+    <script src="{{ static_path }}BelovedCat/pet_the_cat.js?v"></script>
+    <script src="{{ static_path }}js/compile_img_in_show_tasks.js?v"></script>
+    <script src="{{ static_path }}js/show_tasks_pics.js?vv"></script>
+    <script src="{{ static_path }}js/typeInTextarea.js?vv"></script>
+    <script src="{{ static_path }}js/constant.js?"></script>
+    <script src="{{ static_path }}js/print_as_pdf.js?"></script>
+    <script src="{{ static_path }}Export/js/clear_cart.js?"></script>
+
+    <script src="{{ static_path }}js/crm_actions/resume_action_after_modal_confirm.js?"></script>
+    <script src="{{ static_path }}js/crm_actions/begin_action_before_modal.js?jc"></script>
+    <script src="{{ static_path }}js/crm_actions/shluz_for_action_and_modal.js?c"></script>
+    <script src="{{ static_path }}js/crm_actions/squares_to_stars.js?cddt"></script>
+
+    {% if user.is_authenticated %}
+        <script src="{{ static_path }}js/checkboxes/checkbox_all_init_vars.js?jj"></script>
+        <script src="{{ static_path }}js/checkboxes/checkboxes.js?"></script>
+    {% else %}
+        <script src="{{ static_path }}js/checkboxes/checkbox_all_init_vars_guest.js?"></script>
+        <script src="{{ static_path }}js/checkboxes/checkboxes_guest.js?f"></script>
+    {% endif %}
+
+    <script src="{{ static_path }}js/checkboxes/squares.js?bb"></script>
+
+    <script src="{{ static_path }}js/export_folder_to_tex_or_pdf.js?kj"></script>
+
+    <script src="{{ static_path }}js/hide_left_panel.js?bb"></script>
+
+    <script src="{{ static_path }}Test_Generated/js/create_test_from_cart.js?cdsf"></script>
+
+    <script src="{{ static_path }}js/jstree/dist/jstree.min.js"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/add_attr_tree.js?vv"></script>

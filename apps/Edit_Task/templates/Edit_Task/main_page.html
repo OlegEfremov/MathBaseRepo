@@ -1,0 +1,85 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit task</title>
+
+    {% include 'head_script.html' %}
+    <script>var taskid="{{ task.id }}"</script>
+{#    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/edittask_tree.js?v"></script>#}
+
+    {% if request.user|has_group:"Admins" %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/global.js?sjvf"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_admin.js?vd"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/disable_create_buttons.js?jv"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/actions.js?v"></script>
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_guest.js?"></script>
+    {% endif %}
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/tasksource_tree.js?f"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/show_tasks.js?fs"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/save_task.js?gf"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/create_new_solution.js?gf"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/delete_solution.js?gf"></script>
+
+</head>
+<body>
+
+{# {% include "navbar.html" %}#}
+{% include "inc_sidebar_begin.html" %}
+    <div>
+        Редактирование Задачи №{{ task.id }}.
+        <a href="../../admin/Main/task/{{ task.id }}/change/" data-toggle="tooltip" title="Загрузить рисунок" target="_blank">
+            <i class="fas fa-edit"></i>
+        </a>
+    </div>
+
+
+    <div class="container-fluid" style="overflow-x: auto">
+        <div class="row"><br></div>
+
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <div id="table_of_tasks"></div>
+
+                {% include "Edit_Task/inc_task_pics.html" %}
+
+                <div>
+                    <input type="button" class="btn btn-primary" value="Новое решение" onclick="create_new_solution(taskid)"><br><br>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Вставить рисунок" onclick="typeInTextarea($('#id_body'), '@bimg@path_to_picture@size=170@style=display: block; margin-left: auto; margin-right: auto;@eimg@')" id="insert_pic_button"><i class="fas fa-image"></i></button><br>
+                    Условие: {{ taskform.body }}<br>
+                    Ответ: {{ taskform.ans }}<br>
+                    <input type="button" class="btn btn-primary" value="Cохранить" onclick="save_task(taskid)"><br><br>
+                </form>
+                <div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                              {% include "Edit_Source_Catalog/inc_edit_source_tree_buttons.html" %}
+                              <div id="source_tree">Все источники</div>
+                        </div>
+                        <div class="col-sm-6"><br><br>
+                           <div id="tasksource_tree">Источники задачи</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="row"><br></div>
+    </div>
+{% include "inc_sidebar_end.html" %}
+
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Task/js/tasksource_tree_plugin.js?f"></script>
+</body>
+</html>

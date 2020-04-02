@@ -1,0 +1,15 @@
+{% for sol in task.solutions.all %}
+    <div class="collapse" id="solution{{ sol.id }}">
+        <div class="card mb-1">
+            <div class="card-body">
+
+                {% include "Table_Of_Tasks/inc_solution_title.html" %}
+
+                {{ sol.body | linebreaks}}
+
+                {% include "Table_Of_Tasks/inc_mathattributes.html" %}
+
+             </div>
+         </div>
+    </div>
+{% endfor %}

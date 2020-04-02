@@ -1,0 +1,26 @@
+<script src="../static/Main/test_folder_tree.js?mdd"></script>
+<!-- Modal -->
+<div class="modal fade" id="create_test_by_star_folder_modal" tabindex="-1" role="dialog" aria-labelledby="create_test_by_star_folder_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_test_by_star_folder_ModalLabel">Введите название и комментарий к работе</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div id="test_folder_tree"></div>
+            <hr>
+            Название теста:<br>
+            <input type="text"  class="form-control" id="test_by_star_folder_name"><br>
+            Комментарий:<br>
+            <textarea class="form-control" rows="5" id="test_by_star_folder_comment"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_test_by_star_folder_modal" onclick="create_test_from_cart()" id="confirm_button">Создать работу</button>
+     </div>
+    </div>
+  </div>
+</div>

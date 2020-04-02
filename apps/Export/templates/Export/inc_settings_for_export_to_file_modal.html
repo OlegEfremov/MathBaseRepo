@@ -1,0 +1,83 @@
+{% load auth_extras %}
+{#<!-- Button trigger modal -->#}
+{#<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">#}
+{#</button>#}
+
+<!-- Modal -->
+
+<div class="modal fade bd-example-modal-lg" id="settings_for_export_to_file_modal" tabindex="-1" role="dialog" aria-labelledby="settings_for_export_to_file_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settings_for_export_to_file_ModalLabel">Выберите нужное:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="container-fluid" style="overflow-x: auto">
+            <div class="row">
+
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_id_numbers" value="" onchange="" checked>
+          <label class="form-check-label" for="checkbox_id_number">ID-номера</label>
+        </div>
+
+
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_tasks" value="" onchange="" checked>
+          <label class="form-check-label" for="checkbox_tasks">Условия</label>
+        </div>
+
+
+        {% if request.user|has_group:"Admins" %}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="checkbox_sources" value="" onchange="">
+              <label class="form-check-label" for="checkbox_sources">Источники</label>
+            </div>
+        {% endif %}
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_answers" value=""  onchange="">
+          <label class="form-check-label" for="checkbox_answers">Ответы</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_solutions" value=""  onchange="">
+          <label class="form-check-label" for="checkbox_solutions">Решения</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_another_solutions" value=""  onchange="">
+          <label class="form-check-label" for="checkbox_another_solutions">Другие решения</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_math_attributes" value=""  onchange="">
+          <label class="form-check-label" for="checkbox_math_attributes">Атрибуты решений</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_answers_table" value="" onchange="">
+          <label class="form-check-label" for="checkbox_answers_table">Таблица ответов</label>
+        </div>
+
+        <br><br>
+
+
+
+
+
+            </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#settings_for_export_to_file_modal" onclick="export_folder_to_tex(action_data['view_folder'])" id="settings_for_export_to_file_modal_confirm_button">TeX</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#settings_for_export_to_file_modal" onclick="export_folder_to_pdf(action_data['view_folder'])" id="settings_for_export_to_file_modal_confirm_button">PDF</button>
+     </div>
+    </div>
+  </div>
+</div>

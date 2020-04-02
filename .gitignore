@@ -1,0 +1,9 @@
+*.pyc
+*~
+__pycache__
+venv
+.idea
+.env
+**/*.sql
+LBBASE_v_0_40/media/*.*
+backup

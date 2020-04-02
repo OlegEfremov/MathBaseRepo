@@ -1,0 +1,25 @@
+<form class="form-inline">
+   <label for="select_tasks_per_page">Показывать по &nbsp;</label>
+    <select class="form-control form-control-sm" id="select_tasks_per_page">
+        <option value="1">10</option>
+        <option value="2">25</option>
+        <option value="3">50</option>
+        <option value="4">75</option>
+        <option value="5">100</option>
+    </select>
+</form>
+
+    <a href="#" data-toggle="tooltip" title="Показать задачи, удовлетворяющие фильтру">
+        <button onclick="show_tasks('1')" class="btn btn-link">
+            <i class="fas fa-search"></i>
+        </button>
+    </a>
+
+
+<a href="#" data-toggle="tooltip" title="Создать новую папку">
+    <button onclick="create_new_node()" class="btn btn-link">
+        <i class="fas fa-folder"></i>
+    </button>
+</a>
+
+

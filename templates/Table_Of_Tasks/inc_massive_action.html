@@ -1,0 +1,21 @@
+<div class="input-group">
+
+    <div class="input-group-prepend">
+        <div class="input-group-text">
+              <input type="checkbox" aria-label="Checkbox for following text input" id="checkbox_all">
+              <label class="form-check-label" for="checkbox_task_all">Выделить все</label>
+        </div>
+    </div>
+
+    <select class="custom-select" id="select_massive_action">
+        <option selected value="0">Выберите действие...</option>
+        <option value="massive_copy">Копировать в</option>
+        <option value="massive_move">Переместить в</option>
+        <option value="massive_remove">Удалить</option>
+    </select>
+
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" onclick="massive_action()" id="start_massive_action_button">Выполнить</button>
+    </div>
+
+</div>

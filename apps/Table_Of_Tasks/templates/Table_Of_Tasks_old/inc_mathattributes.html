@@ -1,0 +1,9 @@
+    <a data-toggle="collapse" href="#attr{{ sol.id }}" aria-expanded="false" aria-controls="attr{{ sol.id }}">Атрибуты</a>
+
+    <div class="collapse" id="attr{{ sol.id }}">
+        {% if not sol.mathAttribute.all  %}
+            Решению не присвоены атрибуты.
+        {% else %}
+            {{ sol.mathAttribute.all|join:", " }}
+        {% endif %}
+    </div>

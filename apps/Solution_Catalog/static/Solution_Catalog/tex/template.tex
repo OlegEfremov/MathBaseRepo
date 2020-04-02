@@ -1,0 +1,24 @@
+\documentclass[11 pt,russian]{article}
+\hoffset=-2.5cm \voffset=-3.5cm \textwidth=17.5cm \textheight=25cm
+
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amssymb, amsfonts, amsthm, amsmath}
+\usepackage{graphicx}
+\DeclareGraphicsRule{*}{mps}{*}{}
+\usepackage{float}
+
+\pagestyle{empty}
+
+\newcounter{variant}
+\newcounter{zadacha}[variant]
+
+\newcommand{\z}{\stepcounter{zadacha}%
+\ \\\textbf{\arabic{zadacha}.}\ }
+
+\newcommand{\var}{\stepcounter{variant}%
+\textbf{Вариант \arabic{variant}} }
+%====================================================================
+\begin{document}
+@body@
+\end{document}

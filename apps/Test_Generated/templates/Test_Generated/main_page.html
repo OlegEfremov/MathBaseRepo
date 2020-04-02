@@ -1,0 +1,173 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/save_test_name_and_comment.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/show_hide_toggle.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/set_current_link.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/recompile_test.js?nv"></script>
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/open_test_answers.js?nv"></script>
+    <script src="{{ path.PROJECT_STATIC }}Main/test_folder_tree.js?nm"></script>
+
+    <style> .vakata-context {z-index:1100 !important;} </style>
+</head>
+<body>
+
+{% include "inc_sidebar_begin.html" %}
+{% include "Test_Generated/inc_modal_change_test_folder.html" %}
+
+<div class="container">
+{%  if test_exists %}
+    <script>current_test_id = "{{ test.id }}"</script>
+    <br>
+    <h3>
+        {% if request.user|has_group:"Admins" %}
+            <a href="../../admin/Main/test_generated/{{ test.id }}/change/" data-toggle="tooltip" title="Редактировать тест" target="_blank"><i class="fas fa-edit"></i></a>
+        {% endif %}
+        Сгенерированный тест №{{ test.id }}.<br>
+        Название теста: <snap id="test_name">{{ test.name }}</snap><br>
+    </h3>
+    Комментарий: <div id="test_comment">{{ test.comment | linebreaks }}</div>
+    <hr>
+    {% if user == test.author %}
+        Папка теста:
+            <span id="test_folder_name" style="margin-right:5px">
+                {% if not test.test_folders.all  %}
+                    тест не помещен в папки
+                {% else %}
+                    {{ test.test_folders.all|join:", " }}
+                {% endif %}
+            </span>
+                <button class="btn btn-primary btn-xs" onclick="$('#change_test_folder_modal').modal('show')">Сменить</button><br>
+        <a data-toggle="collapse" href="#edit_test_field" aria-expanded="false" aria-controls="edit_test_field">Редактировать</a>
+        <div class="collapse" id="edit_test_field">
+
+            Название теста:<br>
+            <input type="text"  class="form-control" id="test_name_input"><br>
+            Комментарий:<br>
+            <textarea class="form-control" rows="5" id="test_comment_textarea"></textarea>
+            <button class="btn btn-primary" onclick="save_test_name_and_comment('{{ test.id }}')">Сохранить</button>
+        </div>
+    {% endif %}
+    <br><br>
+    {% if user == test.author %}
+        Ссылка, для учеников: <b><snap id="link_to_test"></snap></b><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_open_test_answers" onchange="open_test_answers('{{ test.id }}', this.checked)">
+          <label class="form-check-label" for="checkbox_open_test_answers">Открыть ответы для учеников</label>
+        </div>
+        <br><br>
+    {% endif %}
+
+        {% if user == test.author %}
+            {% if test.template %}
+                <button class="btn btn-primary btn-sm" onclick="recompile_test('{{ test.id }}')">Перегенерировать работу</button><br><br>
+            {% endif %}
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_answers" onchange="show_hide_toggle($('.answer'))">
+          <label class="form-check-label" for="checkbox_answers">Ответы</label>
+        </div>
+        {% endif %}
+
+        {% if test.open_answers or user == test.author %}
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_table_ans" onchange="show_hide_toggle($('#table_ans'))">
+          <label class="form-check-label" for="checkbox_table_ans">Таблица ответов</label>
+        </div>
+        {% endif %}
+
+        {% if user == test.author and request.user|has_group:"Admins"%}
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_sources" value="" onchange="show_hide_toggle($('.sources'))">
+          <label class="form-check-label" for="checkbox_sources">Источники</label>
+        </div>
+        {% endif %}
+
+
+    <br><br>
+        <table class="table" id="task_table">
+            {% for one_task in tasks %}
+
+                <tr class="task">
+                    <td>
+                        <b><span>№{{ forloop.counter }}.</span>
+                        {% for task in one_task %}
+                            {% if user == test.author %}
+                                (id - {{ task.id }})
+                                <button onclick="location.href = '../../edit_task/main_page_{{ task.id }}';" class="btn btn-link">
+                                    <a href="#" data-toggle="tooltip" title="Редактировать задачу"><i class="fas fa-edit"></i></a>
+                                </button>
+                            {% endif %}
+                        {% endfor %}
+                            {% if test.template and user == test.author %}
+                                <button class="btn btn-primary btn-xs" onclick="random_change_task_in_test({{ test.id }}, {{ forloop.counter }})">Поменять задачу</button>
+                            {% endif %}
+                        {% for task in one_task %}
+                            </b>
+                            <span class="task_body">{{ task.body | linebreaks }}</span><br>
+                            {% if user == test.author %}
+        {#                        <a data-toggle="collapse" href="#taskans{{ task.id }}" aria-expanded="false" aria-controls="taskans{{ task.id }}">Ответ</a>#}
+        {#                        {% if request.user|has_group:"Admins" %}#}
+        {#                            &middot; <a data-toggle="collapse" href="#tasksource{{ task.id }}" aria-expanded="false" aria-controls="tasksource{{ task.id }}">Источники</a>#}
+        {#                        {% endif %}#}
+                                {% include "Table_Of_Tasks/inc_sources_card.html" %}
+                                <div class="answer" style="display: none">
+                                    Ответ:<br>{{ task.ans | linebreaks }}
+                                </div>
+                                {% if request.user|has_group:"Admins" %}
+                                    <div class="sources" style="display: none">
+                                        Источники:
+                                        {% for tasknumber in task.taskNumber.all %}
+                                            {% if forloop.last %}
+                                                {{ tasknumber.source }}, №{{ tasknumber.body }}.
+                                            {% else %}
+                                                {{ tasknumber.source }}, №{{ tasknumber.body }};
+                                            {% endif %}
+                                        {% endfor %}
+                                        <br>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+
+    {#                {% if test.template and user == test.author %}#}
+    {#                    <td>#}
+    {#                        <button class="btn btn-primary btn-xs" onclick="random_change_task_in_test({{ test.id }}, {{ forloop.counter }})">Поменять задачу</button>#}
+    {#                    </td>#}
+    {#                {% endif %}#}
+                </tr>
+
+            {% endfor %}
+        </table>
+
+
+    <div id="table_ans"  style="display: none">
+        <br><br>
+        <h4>Ответы:</h4>
+        {% if test.open_answers or user == test.author %}
+            <table class="table">
+                {% for one_task in tasks %}
+                    <tr>
+                        <td><b>№{{ forloop.counter }}.</b></td>
+                        {% for task in one_task %}
+                            <td>{{ task.ans }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+
+{% else %}
+    Работа с таким номером не найдена.
+{% endif %}
+
+</div>
+{% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

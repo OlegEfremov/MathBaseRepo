@@ -1,0 +1,13 @@
+{% load auth_extras %}
+
+{% if request.user|has_group:"Admins" %}
+<div class="collapse" id="tasksource{{ task.id }}">Источники:
+    {% for tasknumber in task.taskNumber.all %}
+        {% if forloop.last %}
+        {{ tasknumber.source }}, №{{ tasknumber.body }}.
+        {% else %}
+        {{ tasknumber.source }}, №{{ tasknumber.body }};
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}

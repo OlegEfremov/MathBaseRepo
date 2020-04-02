@@ -1,0 +1,6 @@
+{% load auth_extras %}
+
+    {% if user.is_authenticated and request.path == '/solution_catalog/view_user_catalog/show_tasks' or request.user|has_group:"Admins" and  request.path == '/solution_catalog/edit_system_catalog/show_tasks'%}
+        <input type="number" step=1 value="1" min="1" style="width: 3em;" id="number_of_task_in_new_test">
+        <button onclick="make_new_test()" class="btn btn-primary btn-sm">Создать тест</button>
+    {% endif %}

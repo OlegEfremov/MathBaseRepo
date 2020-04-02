@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+{% include "head_script.html" %}
+</head>
+
+{#    {% include "navbar.html" %}#}
+    <body>
+    {% include "inc_sidebar_begin.html" %}
+    {% if user.is_authenticated %}
+        {% include 'inc_registration/inc_login_auth.html' %}
+    {% else %}
+        {% include 'inc_registration/inc_login_not_auth.html' %}
+    {% endif %}
+    {% include "inc_sidebar_end.html" %}
+    </body>
+
+</html>

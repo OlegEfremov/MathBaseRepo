@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Math Attribute Tree</title>
+
+    {% include "head_script.html" %}
+     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/dynamic_element.js?v"></script>
+     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/mathattr_tree_admin.js?v"></script>
+     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/actions.js?v"></script>
+     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/create_mathattr_folder.js?v"></script>
+     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/create_mathattr.js?v"></script>
+    {# it is needed to see jstree context menu in modal #}
+    <style> .vakata-context {z-index:1100 !important;} </style>
+
+</head>
+
+    <body>
+
+{#        {% include "navbar.html" %}#}
+        {% include "inc_sidebar_begin.html" %}
+        <div class="row">
+          <div class="col-7">
+                <button onclick="create_mathattr_folder()" class="btn btn-primary btn-sm">Создать папку</button>
+                <button onclick="create_mathattr()" class="btn btn-primary btn-sm">Создать атрибут</button>
+                <div id="mathattr_tree">Все атрибуты</div>
+                <label id="parent_folder" value="" hidden>Корневой каталог</label>
+          </div>
+          <div class="col-5">
+          </div>
+        </div>
+        {% include "inc_sidebar_end.html" %}
+</body>
+</html>

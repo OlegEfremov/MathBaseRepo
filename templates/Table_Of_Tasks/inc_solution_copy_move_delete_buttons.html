@@ -1,0 +1,51 @@
+{% load auth_extras %}
+{#<div class="btn-group" role="group" aria-label="Basic example">#}
+{#     <button name="checkbox_sol" sols = "" task = "{{ task.id }}" onclick='button_checkbox_sol(this)' class="btn btn-link" value="false" id="checkbox_sol_{{ sol.id }}"><i class="fas fa-copy"></i></button>#}
+{#</div>#}
+
+
+{% if user.is_authenticated%}
+<div class="btn-group" role="group" aria-label="Basic example">
+
+    <button onclick="copy_solution_begin('{{ sol.id }}')" class="btn btn-link">
+        <a href="#" data-toggle="tooltip" title="Копировать в">
+            <i class="fas fa-copy"></i>
+        </a>
+    </button>
+
+    {% if request.path == '/solution_catalog/view_user_catalog/show_tasks' or request.path == '/solution_catalog/edit_system_catalog/show_tasks' %}
+        <button onclick="move_solution_begin('{{ sol.id }}')" class="btn btn-link">
+            <a href="#" data-toggle="tooltip" title="Переместить в">
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </button>
+
+
+        <button onclick="erase_solution_begin('{{ sol.id }}')" class="btn btn-link">
+            <a href="#" data-toggle="tooltip" title="Удалить задачу из папки">
+                <i class="fas fa-trash"></i>
+            </a>
+        </button>
+    {% endif %}
+
+    {% if user.is_authenticated and request.user|access_group:"Editors"%}
+        <button onclick="add_attribute_solution_begin('{{ sol.id }}')" class="btn btn-link"  data-toggle="tooltip" data-placement="top" title="Добавить атрибуты решению"><i class="fas fa-clipboard-list"></i></button>
+    {% endif %}
+
+
+
+{% if request.user|access_group:"Editors" %}
+{#    <button onclick="add_attribute_to_solution('{{ sol.id }}')" class="btn btn-link">#}
+{#        <a href="#" data-toggle="tooltip" title="Добавить атрибуты решению">#}
+{#            <i class="fas fa-plus-circle"></i>#}
+{#        </a>#}
+{#    </button>#}
+
+    <button onclick="location.href = ROOT_PATH+'edit_solution/main_page_{{ sol.id }}';" class="btn btn-link">
+        <a href="#" data-toggle="tooltip" title="Редактировать решение">
+            <i class="fas fa-edit"></i>
+        </a>
+    </button>
+{% endif %}
+</div>
+{% endif %}

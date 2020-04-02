@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/export.js?"></script>
+
+</head>
+<body>
+{% include "inc_sidebar_begin.html" %}
+<button onclick='download()'>Download</button>
+<br><br>
+{% include 'Solution_Catalog/common/export_page/export_page.html' %}
+{% include "inc_sidebar_end.html" %}
+</body>
+</html>

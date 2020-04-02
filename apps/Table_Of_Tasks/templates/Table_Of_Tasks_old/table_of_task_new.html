@@ -1,0 +1,185 @@
+{% load auth_extras %}
+
+<div id="all_tasks" hidden>{{ all_tasks|join:',' }}</div>
+<div id="all_sols" hidden>{{ all_sols.all|join:',' }}</div>
+<div id="page_tasks" hidden>{{ tasks|join:',' }}</div>
+<div id="page_sols" hidden>{{ sols|join:',' }}</div>
+<div id="another_sols" hidden>{{ another_solutions|join:',' }}</div>
+<div id="all_tasks_json" hidden>{% for task in all_tasks %}{{ task.id }}:{{ task.solutions.all|join:',' }}{% if not forloop.last %};{% endif %}{% endfor %}</div>
+<div id="page_tasks_json" hidden>{% for task in tasks %}{{ task.id }}:{{ task.solutions.all|join:',' }}{% if not forloop.last %};{% endif %}{% endfor %}</div>
+<div id="all_checkboxes" hidden>{{ all_checkboxes }}</div>
+<div id="tasks_order" hidden>{{ tasks_order }}</div>
+
+{% block task_counter %}<div>Найдено задач: {{ all_tasks|length }}.</div>{% endblock %}
+
+{#{% include  "Table_Of_Tasks/inc_edit_catalog_buttons.html" %}#}
+
+
+    {% if request.user|access_group:"Editors" %}
+        <div>
+            <div id="folder_access_status" hidden>{{ sol_folder.access }}</div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" value="" id="access_checkbox" onclick="change_folder_acces_status(this.checked)">  <!-- задекорировал readers -->
+              <label class="form-check-label" for="acces_checkbox">Открыть доступ к папке.</label>
+            </div><br>
+            <span id="link_for_test"></span><br>
+        </div>
+    {% endif %}
+
+<div class="toggle-checkbox checkbox-inline toggle-sm mrg-top-10"  data-toggle="tooltip" data-placement="top" title="Показать рисунки">
+    <input type="checkbox" name="toggle1" id="toggle1" onclick="show_tasks_pics(this.checked)">
+    <label for="toggle1">&nbsp;</label>
+</div>
+
+
+{% block checkboxes_page_all%}
+    <div class="btn-group" role="group">
+        <button name="checkbox_page" sols = "" task = "" onclick='button_checkbox_page(this)' class="btn btn-primary" value="false"
+                id="checkbox_page" data-toggle="tooltip" data-placement="top" title="Все на странице"><i class="far fa-star mr-1 ml-1"></i></button>
+        <button name="checkbox_all" sols = "" task = "" onclick='button_checkbox_all(this)' class="btn btn-primary" value="false"
+                id="checkbox_all" data-toggle="tooltip" data-placement="top" title="Все на всех страницах">(<small><i class="far fa-star mr-1 ml-1"></i></small>)</button>
+        {% if request.user|access_group:"Editors" %}
+            <button onclick="copy_stars_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"
+                                                        title="Копировать задачи в другую папку"><i class="fas fa-copy"></i></button>    <!-- задекорировал readers -->
+            <button onclick="move_stars_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"
+                                                        title="Переместить задачи в другую папку"><i class="fas fa-arrow-right"></i></button>   <!-- задекорировал editors -->
+            <button onclick="erase_stars_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"
+                                                        title="Удалить задачи из текущей папки"><i class="fas fa-eraser"></i></button>     <!-- задекорировал editors -->
+        {% elif request.user|access_group:"Readers" %}
+            <button onclick="copy_stars_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"
+                                                        title="Копировать задачи в другую папку"><i class="fas fa-copy"></i></button>   <!-- задекорировал readers -->
+        {% endif %}
+        {% if request.user|access_group:"Admins"%}
+            <button onclick="add_attribute_stars_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"
+                                                        title="Добавить атрибут выбранным решениям"><i class="fas fa-clipboard-list"></i></button>  <!-- задекорировал editors -->
+        {% endif %}
+
+
+    </div>
+    <!--  if user.is_authenticated and request.path == '/solution_catalog/view_user_catalog/show_tasks' or request.user|has_group:"Admins" and  request.path == '/solution_catalog/edit_system_catalog/show_tasks' -->
+    {% if request.user|access_group:"Editors" %}
+        <div class="btn-group" role="group">
+            <button onclick="reorder_tasks(action_data['view_folder'], action_data['page'], 'show_tasks')" class="btn btn-primary"
+                                data-toggle="tooltip" data-placement="top" title="Перенумеровать задачи"><i class="fas fa-list-ol"></i></button>     <!-- задекорировал editors -->
+            <button onclick="location.href = 'export_folder_'+action_data['view_folder']" class="btn btn-primary" data-toggle="tooltip"  <!-- задекорировал editors -->
+                                data-placement="top" title="Экспортировать задачи из папки"><i class="fas fa-download"></i></button>
+            <button onclick="create_task_in_folder()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top"     <!-- задекорировал editors -->
+                                                    title="Создать задачу"><i class="fas fa-plus-square"></i></button>
+        </div>
+    {% endif %}
+
+
+    <div class="btn-group" role="group">
+        <button name="square_page" sols = "" task = "" onclick='button_square_page(this)' class="btn btn-primary" value="false" id="square_page"  data-toggle="tooltip" data-placement="top" title="Все на странице"><i class="far fa-square mr-1 ml-1"></i></button>
+        <button name="square_all" sols = "" task = "" onclick='button_square_all(this)' class="btn btn-primary" value="false" id="square_all"  data-toggle="tooltip" data-placement="top" title="Все на всех страницах">(<small><i class="far fa-square mr-1 ml-1"></i></small>)</button>
+        {% if request.user|access_group:"Readers" %}
+            <button onclick="copy_squares_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Копировать задачи в другую папку"><i class="fas fa-copy"></i></button>
+        {% endif %}
+        {% if request.user|access_group:"Editors" %}
+            <button onclick="move_squares_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Переместить задачи в другую папку"><i class="fas fa-arrow-right"></i></button>
+            <button onclick="erase_squares_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Удалить задачи из текущей папки"><i class="fas fa-eraser"></i></button>
+        {% endif %}
+        {% if user.is_authenticated and request.user|has_group:"Admins"%}
+            <button onclick="add_attribute_squares_begin()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Добавить атрибут выбранным решениям"><i class="fas fa-clipboard-list"></i></button>
+        {% endif %}
+
+        <button onclick="squares_to_stars()" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Добавить задачи в Избранное"><i class="fas fa-arrow-right"></i><i class="fas fa-star"></i></button>
+    </div>
+
+{% endblock %}
+
+    <div class="btn-group" role="group">
+        <button onclick="$('#settings_for_export_to_file_modal').modal('show');" class="btn btn-primary"  data-toggle="tooltip" data-placement="top" title="Экспорт папки в tex или pdf">TeX/PDF</button>
+    </div>
+
+
+{#<div class="form-check">#}
+{#  <input class="form-check-input" type="checkbox" value="" id="show_pics" onclick="show_tasks_pics(this.checked)">#}
+{#  <label class="form-check-label" for="show_pics">Показать рисунки</label>#}
+{#</div>#}
+
+<table class="table table-bordered" id="main_task_table">
+    {% for task in tasks %}
+        <tr id = "task{{ task.id }}">
+            <td>
+                {% block task_title %}{% include "Table_Of_Tasks/inc_task_title.html" %}{% endblock %}
+
+                {% block task_copy_move_delete_buttons %}{% include 'Table_Of_Tasks/inc_task_copy_move_delete_buttons.html' %}{% endblock %}
+
+                {% block task_body %}{% include "Table_Of_Tasks/inc_task_body.html" %}{% endblock %}
+
+                {% block toggle_links %}{% include "Table_Of_Tasks/inc_toggle_links.html" %}{% endblock %}
+
+                {% block answer_body %}{% include "Table_Of_Tasks/inc_answer_card.html" %}{% endblock %}
+
+                {% block source_card %}{% include "Table_Of_Tasks/inc_sources_card.html" %}{% endblock %}
+
+                {% block solution_card %}
+                    {% for sol in task.solutions.all %}
+                        {% if sol in solutions_set %}
+                        <div class="collapse" id="solution{{ sol.id }}">
+                            <div class="card mb-1">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <button name="square_sol" sols = "" task = "{{ task.id }}" onclick='button_square_sol(this)' class="btn btn-link" value="false" id="square_sol_{{ sol.id }}"><i class="far fa-square"></i></button>
+                                        {{ sol.name }}.
+                                        {% block checkbox_sol %}
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                             <button name="checkbox_sol" sols = "" task = "{{ task.id }}" onclick='button_checkbox_sol(this)' class="btn btn-link" value="false" id="checkbox_sol_{{ sol.id }}"><i class="far fa-star"></i></button>
+                                        </div>
+                                        {% endblock %}
+
+                                        {% block sol_copy_move_delete_buttons%}{% include 'Table_Of_Tasks/inc_solution_copy_move_delete_buttons.html' %}{% endblock %}
+                                    </h6>
+                                    {{ sol.body | linebreaks}}
+                                    {% include "Table_Of_Tasks/inc_mathattributes.html" %}
+                                 </div>
+                             </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for sol in task.solutions.all %}
+                        {% if sol not in solutions_set %}
+                        <div class="collapse" id="solution{{ sol.id }}">
+                            <div class="card mb-1">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <button name="square_sol" sols = "" task = "{{ task.id }}" onclick='button_square_sol(this)' class="btn btn-link" value="false" id="square_sol_{{ sol.id }}"><i class="far fa-square"></i></button>
+                                        {{ sol.name }}.
+                                        {% block another_sol_checkbox %}
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                 <button name="checkbox_sol" sols = "" task = "{{ task.id }}" onclick='button_checkbox_sol(this)' class="btn btn-link" value="false" id="checkbox_sol_{{ sol.id }}"><i class="far fa-star"></i></button>
+                                            </div>
+                                        {% endblock %}
+                                        {% block another_sol_copy_move_delete_buttons%}{% include 'Table_Of_Tasks/inc_solution_copy_move_delete_buttons.html' %}{% endblock %}
+                                    </h6>
+                                    {{ sol.body | linebreaks}}
+                                    {% include "Table_Of_Tasks/inc_mathattributes.html" %}
+                                 </div>
+                             </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                {% endblock %}
+
+            </td>
+        {% block task_pic %}
+{#        <td style="display: none;">#}
+{#            <div id="task_pic_{{ task.id }}">#}
+{#                {% if task.pic_task %}#}
+{#                <img src="{{ task.pic_task.url }}" width="200">#}
+{#                {% else %}#}
+{#                    нет рисунка#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </td>#}
+        {% endblock %}
+        </tr>
+    {% endfor %}
+</table>
+
+{% include "Export/inc_settings_for_export_to_file_modal.html" %}
+
+{% block pagination %}{% include 'Table_Of_Tasks/pagination.html' %}{% endblock %}

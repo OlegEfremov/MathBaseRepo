@@ -1,0 +1,23 @@
+{% load auth_extras %}
+{#{% if user.is_authenticated %}#}
+{#<div class="form-check-inline">#}
+{#    <input name="checkbox_task" class="form-check-input" type="checkbox" sols = "{{ task.solutions.all|join:', ' }}" task = "" id="checkbox_task_{{ task.id }}">#}
+{#    <label class="form-check-label" for="checkbox_task_{{ task.id }}">№{{ task.id }}.</label>#}
+{#</div>#}
+{#{% else %}#}
+
+{% if user.is_authenticated and request.path == '/solution_catalog/view_user_catalog/show_tasks'%}
+    <input type="number" step=1  value = "1" style="width: 3em;" id="order_number_{{ task.id }}">
+{% endif %}
+
+{% if request.user|has_group:"Admins" %}
+    {% if request.path == '/solution_catalog/edit_system_catalog/show_tasks' %}
+        <input type="number" step=1  value=1 style="width: 3em;" id="order_number_{{ task.id }}">
+    {% endif %}
+{% endif %}
+
+
+    <button name="square_task" sols = "{{ task.solutions.all|join:', ' }}" task = "" onclick='button_square_task(this)' class="btn btn-link" value="false" id="square_task_{{ task.id }}"><i class="far fa-square"></i></button>
+
+    №{{ task.id }}. <button name="checkbox_task" sols = "{{ task.solutions.all|join:', ' }}" task = "" onclick='button_checkbox_task(this)' class="btn btn-link" value="false" id="checkbox_task_{{ task.id }}"><i class="far fa-star"></i></button>
+{#{% endif %}#}

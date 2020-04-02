@@ -1,0 +1,69 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    {% include "head_script.html" %}
+
+
+</head>
+<body>
+    {% include "inc_sidebar_begin.html" %}
+
+    <div class="container-fluid">
+        <div class="row">
+                <h2>Регистрация нового пользователя</h2>
+                <form method="post" action=".">
+      {% csrf_token %}
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-error">
+                        <font color="red"><strong>{{ error|escape }}</strong></font>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-error">
+                    <font color="red"><strong>{{ error|escape }}</strong></font>
+                </div>
+            {% endfor %}
+        {% endif %}
+     <p>
+          <label for="id_username">Имя пользователя:</label>
+          <input  class="form-control" type="text" name="username" autofocus required maxlength="150" id="id_username" />
+          <span class="helptext">(Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_. )</span>
+      </p>
+      <p>
+          <label for="id_email">Email:</label>
+          <input type="email" class="form-control" name="email" id="id_email" required />
+          <span class="helptext">(адрес электронной почты)</span>
+      </p>
+      <p>
+          <label for="id_password1">Пароль:</label>
+          <input type="password"  class="form-control"  name="password1" id="id_password1" required />
+          <span class="helptext">
+              <ul>
+                <li>Ваш пароль не должен совпадать с вашим именем или другой персональной информацией или быть слишком похожим на неё.</li>
+                <li>Ваш пароль должен содержать как минимум 8 символов.</li>
+                <li>Ваш пароль не может быть одним из широко распространённых паролей.</li>
+                <li>Ваш пароль не может состоять только из цифр.</li>
+              </ul>
+          </span>
+      </p>
+      <p>
+          <label for="id_password2">Подтверждение пароля:</label>
+          <input type="password"  class="form-control"  name="password2" id="id_password2" required />
+          <span class="helptext">Для подтверждения введите, пожалуйста, пароль ещё раз.</span>
+      </p>
+{#        {{ form.as_p }}#}
+      <input type="submit" class="btn btn-primary" value="Отправить" id="send_reg_form" />
+    </form>
+        </div>
+    </div>
+{% include "inc_sidebar_end.html" %}
+</body>
+</html>

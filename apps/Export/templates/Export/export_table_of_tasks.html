@@ -1,0 +1,146 @@
+{% load auth_extras %}
+
+        <br>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_id_numbers" value="" onchange="show_hide_toggle($('.id_number'), 'inline-block')" checked>
+          <label class="form-check-label" for="checkbox_id_number">ID-номера</label>
+        </div>
+
+
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_tasks" value="" onchange="show_hide_toggle($('.task_body'), 'inline-block')" checked>
+          <label class="form-check-label" for="checkbox_tasks">Условия</label>
+        </div>
+
+
+        {% if request.user|has_group:"Admins" %}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="checkbox_sources" value="" onchange="show_hide_toggle($('.sources'))">
+              <label class="form-check-label" for="checkbox_sources">Источники</label>
+            </div>
+        {% endif %}
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_answers" value=""  onchange="show_hide_toggle($('.answer'))">
+          <label class="form-check-label" for="checkbox_answers">Ответы</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_solutions" value=""  onchange="show_hide_toggle($('.solutions'))">
+          <label class="form-check-label" for="checkbox_solutions">Решения</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_another_solutions" value=""  onchange="show_hide_toggle($('.another_solutions'))">
+          <label class="form-check-label" for="checkbox_another_solutions">Другие решения</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_math_attributes" value=""  onchange="show_hide_toggle($('.mathattr'))">
+          <label class="form-check-label" for="checkbox_math_attributes">Атрибуты решений</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="checkbox_answers_table" value="" onchange="show_hide_toggle($('.ans_table'))">
+          <label class="form-check-label" for="checkbox_answers_table">Таблица ответов</label>
+        </div>
+
+        <br><br>
+
+
+<table class="table" id="task_table">
+    {% for task in tasks %}
+        <tr id = "{{ task.id }}" class="task">
+            <td>
+                <a href="#" class="up" onclick="up_down(this); return false;">&#9650</a>
+                <a href="#" class="down" onclick="up_down(this); return false;">&#9660</a>
+                <button class="btn btn-link" onclick='remove_task_from_cart(this)'><i class="fas fa-trash"></i></button>
+                <b><span id="order_number_{{ task.id }}">№{{ forloop.counter }}</span> <span class="id_number" style="display: inline-block">(id-{{ task.id }}).</span></b>
+                <br>
+                <span class="task_body" style="display: inline-block">{{ task.body|linebreaks }}</span>
+                <br>
+            <div class="answer" style="display: none">
+                Ответ: {{ task.ans }}
+                <br>
+            </div>
+
+            {% if request.user|has_group:"Admins" %}
+            <div class="sources" style="display: none">
+                Источники:
+                {% for tasknumber in task.taskNumber.all %}
+                    {% if forloop.last %}
+                        {{ tasknumber.source }}, №{{ tasknumber.body }}.
+                    {% else %}
+                        {{ tasknumber.source }}, №{{ tasknumber.body }};
+                    {% endif %}
+                {% endfor %}
+                <br>
+            </div>
+            {% endif %}
+
+            <div class="solutions" style="display: none">
+                {% for sol in task.solutions.all %}
+                    {% if sol in solutions_set %}
+                        <div class="solution" id="{{ sol.id }}">
+                            {{ sol.name }}<br>
+                            {{ sol.body | linebreaks}}
+
+                            <div class="mathattr" style="display: none">
+                            {% if not sol.mathAttribute.all  %}
+                                Решению не присвоены атрибуты.
+                            {% else %}
+                                {{ sol.mathAttribute.all|join:", " }}
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+
+            <div class="another_solutions" style="display: none">
+            {% load table_of_tasks_tags %}
+            {% if task.solutions.all|has_another_sols:solutions_set %}
+                Другие решения: <br>
+                {% for sol in task.solutions.all %}
+                    {% if sol not in solutions_set %}
+                        <div class="another_solution" id="{{ sol.id }}">
+                            {{ sol.name }}<br>
+                            {{ sol.body | linebreaks}}
+
+                            <div class="mathattr" style="display: none">
+                            {% if not sol.mathAttribute.all  %}
+                                Решению не присвоены атрибуты.
+                            {% else %}
+                                {{ sol.mathAttribute.all|join:", " }}
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+    <div class="ans_table" style="display: none">
+        <table class="table-bordered table-sm" id="ans_table">
+            {% for task in tasks %}
+                <tr id = "task{{ task.id }}">
+                    <td style="width:1px;white-space:nowrap;">
+                        <b><span id="ans_order_number_task{{ task.id }}">№{{ forloop.counter }}</span> <span class="id_number" style="display: inline-block">(id-{{ task.id }}).</span></b>
+                    </td>
+                    <td style="width:1px;white-space:nowrap;">
+                        {{ task.ans }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>

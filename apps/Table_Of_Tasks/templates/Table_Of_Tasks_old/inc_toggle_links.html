@@ -1,0 +1,31 @@
+<div>
+    {# Answers #}
+    <a data-toggle="collapse" href="#taskans{{ task.id }}" aria-expanded="false" aria-controls="taskans{{ task.id }}">Ответ</a>
+
+    {# Solutions #}
+    {% for sol in task.solutions.all %}
+        {% if sol in solutions_set %}
+            &middot; <a data-toggle="collapse" href="#solution{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}">{{ sol.name }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {# Another solutions #}
+    {% load table_of_tasks_tags %}
+    {% if task.solutions.all|has_another_sols:solutions_set %}
+        &middot; <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Другие решения
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for sol in task.solutions.all %}
+                {% if sol not in solutions_set %}
+                    <a class="dropdown-item" data-toggle="collapse" href="#solution{{ sol.id }}" aria-expanded="false" aria-controls="solution{{ sol.id }}">{{ sol.name }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+    {# Sourсes #}
+    &middot; <a data-toggle="collapse" href="#tasksource{{ task.id }}" aria-expanded="false" aria-controls="tasksource{{ task.id }}">Источники</a>
+
+</div>

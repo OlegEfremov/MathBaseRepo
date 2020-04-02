@@ -1,0 +1,12 @@
+<div class="container" style="overflow-x: auto">
+    <table class="table" id="task_table">
+        {% for task in tasks %}
+            <tr id = "{{ task.id }}" class="task">
+                <td>
+                    <b><span>№{{ forloop.counter }}.</span></b>
+                    <span class="task_body">{{ task.body|linebreaks }}</span>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

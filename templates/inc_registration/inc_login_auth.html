@@ -1,0 +1,26 @@
+<br>
+    <div class="container">
+      <div class="row">
+        <div class="col-7">
+            Добро пожаловать! Это база задач по математике. Вы можете воспользоваться каталогом задач или тематическим поиском.
+        </div>
+
+        <div class="col-5">
+            Здравствуйте, {{ user.username }}!
+            <hr />
+            (<a href="{% url 'auth_logout' %}">Выйти</a> |
+            <a href="{% url 'auth_password_change' %}">Сменить пароль</a>)
+        </div>
+
+      </div>
+    </div>
+
+
+</body>
+
+</html>
+
+
+
+
+

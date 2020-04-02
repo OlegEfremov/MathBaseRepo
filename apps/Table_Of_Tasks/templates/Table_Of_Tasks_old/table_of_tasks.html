@@ -1,0 +1,21 @@
+<table class="table table-bordered">
+    {% for task in tasks %}
+        <tr id = "task{{ task.id }}">
+            <td>
+                {% include "Table_Of_Tasks/inc_task_title.html" %}
+
+                {% include "Table_Of_Tasks/inc_copy_move_delete_buttons.html" %}
+
+                {% include "Table_Of_Tasks/inc_task_body.html" %}
+
+                {% include "Table_Of_Tasks/inc_toggle_links.html" %}
+
+                {% include "Table_Of_Tasks/inc_answer_card.html" %}
+
+                {% include "Table_Of_Tasks/inc_sources_card.html" %}
+
+                {% include "Table_Of_Tasks/inc_solution_card.html" %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

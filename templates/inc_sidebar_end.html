@@ -1,0 +1,38 @@
+{% load auth_extras %}
+{% load table_of_tasks_tags %}
+
+{% if request.path == '/accounts/password/reset/' or request.path == '/accounts/register/complete/' or request.path == '/accounts/activate/complete/' or request.path == '/accounts/password/change/'%}
+    {% setvar "../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/done/'%}
+    {% setvar "../../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/' %}
+    {% setvar "../../../../../../" as root_path %}
+{% elif request.path == '/accounts/password/reset/confirm/NTQ/set-password/auth_password_reset_complete' %}
+    {% setvar "../../../../../../../" as root_path %}
+{% else %}
+    {% setvar "../../" as root_path %}
+{% endif %}
+
+                    </div>
+                    <!-- Content Wrapper END -->
+
+                    <!-- Footer START -->
+                    <footer class="content-footer">
+                        <div class="footer">
+                            <div class="copyright">
+                                <span>Copyright © 2018.</span>
+                                <span class="go-right">
+                                    <a href="javascript: pet_the_cat()" class="text-gray"><img src="{{ root_path }}static/images/icons/cat.png"></a>
+                                </span>
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- Footer END -->
+
+                </div>
+                <!-- Page Container END -->
+
+            </div>
+        </div>
+{% include "footer_script.html" %}
+

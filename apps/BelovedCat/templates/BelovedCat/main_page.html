@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Кот</title>
+
+    {% include "head_script.html" %}
+{#     <script src="{{ path.PROJECT_STATIC }}Edit_MathAttribute_Catalog/js/create_mathattr.js?v"></script>#}
+    {# it is needed to see jstree context menu in modal #}
+{#    <script src="{{ path.PROJECT_STATIC }}BelovedCat/questions.js"></script>#}
+
+</head>
+
+    <body>
+
+        {% include "navbar.html" %}
+
+  <div class="container" style="overflow-x: auto">
+  <div class="row">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+        <div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ question }}<br>
+                {{ catform.answer }}
+                <small id="emailHelp" class="form-text text-muted">{{ text }}</small>
+                <button type="submit" class="btn btn-primary" onclick="">Мяу</button>
+            </form>
+        </div>
+
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<a data-toggle="collapse" href="#sol_pics_link" aria-expanded="false" aria-controls="sol_pics_link">Рисунки</a>
+<div class="collapse" id="sol_pics_link">
+Вставить рисунок:<br>
+@ bimg @ path_to_picture @ size=170 @ style=float:right; margin-left:40px;@ eimg @ (без пробелов)
+<br><br>
+    <table class="table table-bordered">
+        <tr>
+            <td>Главный рисунок решения:</td>
+            <td>{% if sol.pic_sol %}{{ sol.pic_sol.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile_sol %}<a href="{{ sol.mpfile_sol.url }}">mpfile_task</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic_sol %}<img src="{{ sol.pic_sol.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис1.:</td>
+            <td>{% if sol.pic1 %}{{ sol.pic1.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile1 %}<a href="{{ sol.mpfile1.url }}">mpfile1</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic1 %}<img src="{{ sol.pic1.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис2.:</td>
+            <td>{% if sol.pic2 %}{{ sol.pic2.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile2 %}<a href="{{ sol.mpfile2.url }}">mpfile2</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic2 %}<img src="{{ sol.pic2.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис3.:</td>
+            <td>{% if sol.pic3 %}{{ sol.pic3.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile3 %}<a href="{{ sol.mpfile3.url }}">mpfile3</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic3 %}<img src="{{ sol.pic3.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис4.:</td>
+            <td>{% if sol.pic4 %}{{ sol.pic4.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile4 %}<a href="{{ sol.mpfile4.url }}">mpfile4</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic4 %}<img src="{{ sol.pic4.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис5.:</td>
+            <td>{% if sol.pic5 %}{{ sol.pic5.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile5 %}<a href="{{ sol.mpfile5.url }}">mpfile5</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic5 %}<img src="{{ sol.pic5.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+        <tr>
+            <td>Рис6.:</td>
+            <td>{% if sol.pic6 %}{{ sol.pic6.url }}{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.mpfile6 %}<a href="{{ sol.mpfile6.url }}">mpfile6</a>{% else %}не загружен{% endif %}</td>
+            <td>{% if sol.pic6 %}<img src="{{ sol.pic6.url }}" width="100">{% else %}не загружен{% endif %}</td>
+        </tr>
+    </table>
+</div>

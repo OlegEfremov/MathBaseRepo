@@ -1,0 +1,43 @@
+{% load auth_extras %}
+<div class="btn-group" role="group">
+
+    {% if user.is_authenticated %}
+        <button onclick="copy_task_begin('{{ task.id }}')" class="btn btn-link">
+            <a href="#" data-toggle="tooltip" title="Копировать в">
+                <i class="fas fa-copy"></i>
+            </a>
+        </button>
+    {% endif %}
+
+
+{% if request.path == '/solution_catalog/view_user_catalog/show_tasks' or  request.path == '/solution_catalog/edit_system_catalog/show_tasks'%}
+    {%if user.is_authenticated %}
+        <button onclick="move_task_begin('{{ task.id }}')" class="btn btn-link">
+            <a href="#" data-toggle="tooltip" title="Переместить в">
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </button>
+
+        <button onclick="erase_task_begin('{{ task.id }}')" class="btn btn-link">
+            <a href="#" data-toggle="tooltip" title="Удалить задачу из папки">
+                <i class="fas fa-trash"></i>
+            </a>
+        </button>
+    {% endif %}
+{% endif %}
+
+{% if user.is_authenticated and request.user|access_group:"Editors"%}
+    <button onclick="add_attribute_task_begin('{{ task.id }}')" class="btn btn-link"  data-toggle="tooltip" data-placement="top" title="Добавить атрибуты всем решениям задачи"><i class="fas fa-clipboard-list"></i></button>
+{% endif %}
+
+
+{% if request.user|access_group:"Editors" %}
+    <button onclick="location.href = ROOT_PATH+'edit_task/main_page_{{ task.id }}';" class="btn btn-link">
+        <a href="#" data-toggle="tooltip" title="Редактировать задачу">
+            <i class="fas fa-edit"></i>
+        </a>
+    </button>
+{% endif %}
+
+
+</div>

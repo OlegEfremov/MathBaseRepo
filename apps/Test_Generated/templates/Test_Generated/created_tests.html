@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Test_Generated/js/archive_test.js?v"></script>
+    <script src="{{ path.PROJECT_STATIC }}Main/test_folder_tree.js?m"></script>
+    <style> .vakata-context {z-index:1100 !important;} </style>
+</head>
+
+<body>
+
+{% include "Test_Generated/inc_modal_choose_target_test_folder.html" %}
+
+    {% include "inc_sidebar_begin.html" %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary btn-xs" onclick="show_all_user_tests()">Показать все</button>
+                <button class="btn btn-primary btn-xs" onclick="show_user_tests_outside_folders()">Показать тесты вне папок</button>
+                <div id="test_folder_tree"></div>
+            </div>
+            <div class="col">
+                <div id="tests_in_test_folder"></div><br>
+            </div>
+        </div>
+    </div>
+    {% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

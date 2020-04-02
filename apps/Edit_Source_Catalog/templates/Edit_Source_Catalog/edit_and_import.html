@@ -1,0 +1,147 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Math Attribute Tree</title>
+
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/global.js?sjf"></script>
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/test_csv.js?"></script>
+    <script type="text/javascript" src="{{ path.PROJECT_STATIC }}js/mustache/mustache.js" ></script>
+
+    {% if request.user|has_group:"Admins" %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_admin.js?mt"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/disable_create_buttons.js?bb"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/actions.js?vb"></script>
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/export_csv.js?b"></script>
+
+        <link rel="stylesheet" href="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/css/autocomplete_source.css">
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/find_task_by_source_and_number.js?s"></script>
+
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/source_tree_guest.js?"></script>
+    {% endif %}
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/import_tasks.js?b"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/show_tasks.js?v"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/edit_user_catalog.js?v"></script>
+
+    {% if request.path == '/edit_source_catalog/main_page_system' %}
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/choose_target_folder_tree.js?jjjv"></script>
+    {% else %}
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/view_user_catalog/choose_target_folder_tree.js?iuhg"></script>
+    {% endif %}
+
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/copy_move_remove_task_or_solution.js?vh"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/enable_disable_elements.js?vj"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/global_vars.js?dc"></script>
+
+
+    {# it is needed to see jstree context menu in modal #}
+    <style> .vakata-context {z-index:1100 !important;} </style>
+
+
+</head>
+    <body>
+    {% include "inc_sidebar_begin.html" %}
+    {% if user.is_authenticated %}
+        <div id="all_sources" hidden>{{ sources.all|join:'@@' }}</div>
+        {% include "Edit_Source_Catalog/inc_search_form.html" %}
+        {% include "Edit_Source_Catalog/inc_import_tasks.html" %}
+        {% if user.is_authenticated %}
+            {% include "Solution_Catalog/common/page/inc_choose_target_folder_modal.html" %}
+        {% endif %}
+     {% endif %}
+        <div class="container-fluid" style="overflow-x: auto">
+            <div class="row">
+                {% if user.is_authenticated %}
+                    <div class="col-auto">
+                        {% include "Solution_Catalog/common/page/inc_input_per_page.html" %}
+                        {% include "Edit_Source_Catalog/inc_edit_source_tree_buttons.html" %}
+                        <div id="source_tree">Все атрибуты</div>
+                    </div>
+                {% endif %}
+                <div class="col-auto">
+                    <div id="edit_and_import_div">
+                        <div id="test_view_task_table" style="width: 1100px; overflow-x: scroll; height: 700px; overflow-y: scroll">test-view</div>
+                        <br>
+                        <input class="btn btn-primary" type="button" value="Проверить" onclick="test_csv()">
+                        <input class="btn btn-sm btn-warning" type="button" value="dfrac" onclick="replace_all_frac_with_dfrac()">
+                        <input class="btn btn-sm btn-warning" type="button" value="new_task" onclick="input_new_task_string_in_textarea()">
+                        <div class="form-group">
+                          <label for="csv-form">CSV:</label>
+                          <textarea class="form-control" rows="5" id="test_csv_textarea"></textarea>
+                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="text-right">
+                                <input id="import_from_test_button" class="btn btn-danger" type="button" value="Импортировать" onclick="import_ending(document.getElementById('test_csv_textarea').value)">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% include "inc_sidebar_end.html" %}
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+{% if user.is_authenticated %}
+            <button type="button" class="btn btn-primary btn-xs add" id="button_add">Add</button> <button type="button" class="btn btn-default btn-xs remove" id="button_remove">Remove</button> <span class="msg text-danger"></span>
+<hr>
+
+<form>
+<div class="container dynamic-rows"></div>
+</form>
+
+<script type="text/template" id="form_rows_tpl">
+  <form class="form-inline">
+    <div class="row">
+        <div class="col-1">
+        <input type="text" name="Order" id="Order_{{count}}"/>
+        </div>
+        <div class="col-1">
+        <input type="text" name="TaskNumber" id="TaskNumber_{{count}}"/>
+        </div>
+        <div class="col-8">
+        <textarea class="form-control" rows="2" name="TaskBody" id="TaskBody_{{count}}" style="width: 100%;"/>
+        </div>
+        <div class="col"-2>
+        <textarea class="form-control" rows="2" name="Ans" id="Ans_{{count}}" style="width: 100%;"/>
+        </div>
+    </div>
+  </form>
+<br>
+</script>
+                <div id="table_of_tasks"></div>
+              </div>
+            </div>
+        </div>
+
+{% endif %}
+-->
+
+

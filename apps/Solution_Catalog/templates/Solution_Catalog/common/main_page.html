@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/global_vars.js?mk"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/enable_disable_elements.js?vj"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/show_tasks.js?fgsd"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/create_task_in_folder.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/change_folder_access_status.js?v"></script>
+
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/edit_user_catalog.js?v"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/copy_move_remove_task_or_solution.js?jv"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/select_view_folder.js?v"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/reorder_tasks.js?jj"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/export.js?f"></script>
+
+
+    {# it is needed to see jstree context menu in modal #}
+    <style> .vakata-context {z-index:1100 !important;} </style>
+
+
+</head>
+<body>
+
+{#{% include "navbar.html" %}#}
+{% include "Solution_Catalog/common/page/inc_remove_task_from_folder_modal.html" %}
+{% include "Solution_Catalog/common/page/inc_add_attribute_modal.html" %}
+{% include "Solution_Catalog/common/page/inc_export_modal.html" %}
+
+{% include "inc_sidebar_begin.html" %}
+<div class="container-fluid" style="overflow-x: auto">
+    <div class="row">
+
+        <div class="col-auto">
+            <button class='btn btn-primary btn-xs' onclick="hide_left_panel()"><i class="fas fa-bars"></i></button>
+            <div style="background: #e4e3f9; border-radius: 5px; padding: 15px; border-width: 1px; border-style:solid; border-color: #b8b7cc" id="left_panel">
+            <p>Выберите папку для просмотра задач:</p>
+            {% block create_new_folder_button %}
+            <p>
+                <a href="#" data-toggle="tooltip" title="Cоздать новую папку">
+                    <button onclick="create_solution_folder()" class="btn btn-primary btn-sm">Новая папка </button>
+                </a>
+                <button onclick="show_tasks_from_all_subfolders()" class="btn btn-primary btn-sm">Показать задачи из вложенных папок</button>
+            </p>
+            {% endblock %}
+            <div id="system_solution_catalog">test</div>
+            <p>
+            {% block select_tasks_per_page %}
+                {% include "Solution_Catalog/common/page/inc_input_per_page.html" %}
+            {% endblock %}
+            </p>
+            {% block show_empty_task_button %}{% endblock %}
+            {% block checkbox_counter %}
+            {% endblock %}
+            </div>
+        </div>
+
+        <div class="col">
+{#            <p>#}
+{#            {% block massive_action %}#}
+{#                {% include  "Solution_Catalog/edit_system_catalog/Table_Of_Tasks/inc_massive_action.html" %}#}
+{#            {% endblock %}#}
+{#            </p>#}
+{#            <br>#}
+            <div id="table_of_tasks"></div>
+        </div>
+
+    </div>
+</div>
+{% if user.is_authenticated %}
+{% include "Solution_Catalog/common/page/inc_choose_target_folder_modal.html" %}
+{% endif %}
+
+{% include "inc_sidebar_end.html" %}
+
+    {% block js %}
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/view_user_catalog/view_task_tree.js?hf"></script>
+        <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/view_user_catalog/choose_target_folder_tree.js?iuhg"></script>
+    {% endblock %}
+
+</body>
+</html>

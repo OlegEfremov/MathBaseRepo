@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-auto">
+        Иcточник:
+        <input type="text" autocomplete="['sd',''rtg]" style="width: 6em;" id="find_task_by_source_input" onkeydown="if (event.keyCode === 13){$('#find_task_by_source_and_number').click()}">
+        Номер:
+        <input type="text"  style="width: 6em;" id="find_task_by_tasknumber_input" onkeydown="if (event.keyCode === 13){$('#find_task_by_source_and_number').click()}">
+        <a href="#" data-toggle="tooltip" title="Найти задачу">
+            <button onclick="find_task_by_source_and_number('1')" class="btn btn-link" id="find_task_by_source_and_number">
+                <i class="fas fa-search"></i>
+            </button>
+        </a>
+    </div>
+</div>

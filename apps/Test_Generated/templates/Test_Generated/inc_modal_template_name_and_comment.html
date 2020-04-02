@@ -1,0 +1,23 @@
+<!-- Modal -->
+<div class="modal fade" id="create_template_modal" tabindex="-1" role="dialog" aria-labelledby="create_template_ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_template_ModalLabel">Введите название и комментарий к шаблону работы</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            Название теста:<br>
+            <input type="text"  class="form-control" id="template_name"><br>
+            Комментарий:<br>
+            <textarea class="form-control" rows="5" id="template_comment"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create_template_modal" onclick="create_test_template()" id="confirm_button">Сохранить шаблон работы</button>
+     </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,103 @@
+{% load auth_extras %}
+{% load table_of_tasks_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    {% include "head_script.html" %}
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/common/global_vars.js?"></script>
+    <script src="{{ path.PROJECT_STATIC }}Full_Search/js/find_task_by_id.js?v"></script>
+    <script src="{{ path.PROJECT_STATIC }}All_Search/js/find_test_by_id.js?vv"></script>
+    <script src="{{ path.PROJECT_STATIC }}All_Search/js/find_test_by_name.js?vv"></script>
+
+    <link rel="stylesheet" href="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/css/autocomplete_source.css">
+    <script src="{{ path.PROJECT_STATIC }}Edit_Source_Catalog/js/find_task_by_source_and_number.js?v"></script>
+
+    <script src="{{ path.PROJECT_STATIC }}All_Search/js/get_per_page.js?s"></script>
+
+
+    {# it is needed to see jstree context menu in modal #}
+    <style> .vakata-context {z-index:1100 !important;} </style>
+
+
+</head>
+<body>
+    <div id="all_sources" hidden>{{ sources.all|join:'@@' }}</div>
+
+{% include "inc_sidebar_begin.html" %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-auto">
+            <button class='btn btn-primary btn-xs' onclick="hide_left_panel()"><i class="fas fa-bars"></i></button>
+            <div style="background: #e4e3f9; border-radius: 5px; padding: 15px; border-width: 1px; border-style:solid; border-color: #b8b7cc" id="left_panel">
+                <table>
+                    <tr>
+                        <td>Найти задачу №</td>
+                        <td><input type="text"  style="width: 6em;" id="find_task_by_id_input" onkeydown="if (event.keyCode === 13){$('#find_task_by_id_button').click()}"></td>
+                        <td>
+                            <button onclick="find_task_by_id()" class="btn btn-link" id="find_task_by_id_button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr><td><hr></td></tr>
+                    {% if request.user|has_group:"Freinds" or request.user|has_group:"Admins"%}
+                    <tr>
+                        <td>Иcточник:</td>
+                        <td><input type="text" autocomplete="['sd',''rtg]" style="width: 6em;" id="find_task_by_source_input" onkeydown="if (event.keyCode === 13){$('#find_task_by_source_and_number').click()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Номер:</td>
+                        <td><input type="text"  style="width: 6em;" id="find_task_by_tasknumber_input" onkeydown="if (event.keyCode === 13){$('#find_task_by_source_and_number_button').click()}"></td>
+                        <td>
+                            <button onclick="find_task_by_source_and_number('1')" class="btn btn-link" id="find_task_by_source_and_number_button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr><td><hr></td></tr>
+                    {% endif %}
+                    <tr>
+                        <td>Найти работу №</td>
+                        <td><input type="text"  style="width: 6em;" id="find_test_by_id_input" onkeydown="if (event.keyCode === 13){$('#find_test_by_id_button').click()}"></td>
+                        <td>
+                            <button onclick="find_test_by_id()" class="btn btn-link" id="find_test_by_id_button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% if user.is_authenticated %}
+                    <tr><td><hr></td></tr>
+                    <tr>
+                        <td>Название работы: </td>
+                        <td><input type="text"  style="width: 6em;" id="find_test_by_name_input" onkeydown="if (event.keyCode === 13){$('#find_test_by_name_button').click()}"></td>
+                        <td>
+                            <button onclick="find_test_by_name()" class="btn btn-link" id="find_test_by_name_button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                </table>
+                {% if request.user|has_group:"Freinds" or request.user|has_group:"Admins"%}
+                <hr>
+                {% include "Solution_Catalog/common/page/inc_input_per_page.html" %} задач.
+                {% endif %}
+
+
+            </div>
+        </div>
+
+        <div class="col">
+            <div id="table_of_tasks"></div>
+        </div>
+    </div>
+</div>
+{% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

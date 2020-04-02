@@ -1,0 +1,9 @@
+ <div class="card mb-1">
+    <div class="card-body">
+        <h6 class="card-title">
+                {{ sol.name }}.
+        </h6>
+        {{ sol.body | linebreaks}}
+            {% include "Solution_Catalog/common/Table_Of_Tasks/inc_mathattributes.html" %}
+     </div>
+ </div>

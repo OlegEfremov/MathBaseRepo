@@ -1,0 +1,19 @@
+{% extends 'Solution_Catalog/common/main_page.html' %}
+
+{% block js %}
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/view_task_tree.js?h"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/choose_target_folder_tree.js?jjjv"></script>
+    <script src="{{ path.PROJECT_STATIC }}Solution_Catalog/js/edit_system_catalog/empty_tasks.js?vdv"></script>
+{% endblock %}
+
+{#{% block massive_action %}#}
+{#    {% include  "Solution_Catalog/edit_system_catalog/Table_Of_Tasks/inc_massive_action.html" %}#}
+{#{% endblock %}#}
+
+{% block show_empty_task_button %}
+    <div class="btn-group-vertical  btn-block">
+        <button onclick="show_tasks('none','1','show_tasks_without_solution')" class="btn btn-secondary btn-sm">Показать задачи без решений</button>
+        <button onclick="create_solution_for_empty_tasks()" class="btn btn-secondary btn-sm">Cоздать решения новым задачам</button>
+        <button onclick="show_tasks('none','1','show_tasks_outside_folders')" class="btn btn-secondary btn-sm">Показать задачи вне папок</button>
+    </div>
+{% endblock %}
