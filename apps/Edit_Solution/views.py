@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.contrib.auth.decorators import user_passes_test
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render
 import json
 
@@ -7,10 +8,14 @@ from apps.Edit_MathAttribute_Catalog.views import makeAttributeTree
 from apps.Edit_Solution.forms import SolutionForm
 from apps.Edit_Solution.lib import makeSolAttrTree
 from apps.Main.constants import path
+from apps.Main.decorators import editor_check
 from apps.Main.models import Solution, MathAttribute, MathAttribute_Folder
 
 
 def main_page(request, sol_id):
+    if not editor_check(request.user):
+        return HttpResponseForbidden('У Вас недостаточно прав для редактирования задач')
+
     sol = Solution.objects.get(id=sol_id)
     solform = SolutionForm(request.POST or None, initial={'body': sol.body, 'name': sol.name})
     solform.is_valid()
@@ -28,6 +33,7 @@ def main_page(request, sol_id):
     return render(request, 'Edit_Solution/main_page.html', {'tasks': tasks, 'solutions_set': solutions_set, 'sol': sol, 'solform': solform, 'path': path})
 
 
+@user_passes_test(editor_check)
 def edit_mathattr_tree(request):
     allmathattributes = makeAttributeTree(MathAttribute_Folder.objects.get(system_name='ROOT_MATHATTRIBUTES'))
 
@@ -61,7 +67,7 @@ def solattr_tree(request, sol_id=0):
 
     return HttpResponse(treeJson, content_type='json')
 
-
+@user_passes_test(editor_check)
 def add_attr_to_sol(request):
 
     data = request.POST
@@ -79,6 +85,7 @@ def add_attr_to_sol(request):
     return HttpResponse('hi')
 
 
+@user_passes_test(editor_check)
 def delete_mathattribue_from_solution(request):
 
     data = request.POST
@@ -95,6 +102,7 @@ def delete_mathattribue_from_solution(request):
     return HttpResponse('hi')
 
 
+@user_passes_test(editor_check)
 def delete_solution(request, sol_id):
     sol = Solution.objects.get(id=sol_id)
     sol.delete()
@@ -113,6 +121,7 @@ def show_tasks(request):
                   {'path': path, 'tasks': tasks, 'solutions_set': solutions_set})
 
 
+@user_passes_test(editor_check)
 def save_solution(request):
     data = json.loads(request.POST['data'])
 
