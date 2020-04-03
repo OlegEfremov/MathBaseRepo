@@ -14,7 +14,7 @@ from apps.Main.models import Solution, MathAttribute, MathAttribute_Folder
 
 def main_page(request, sol_id):
     if not editor_check(request.user):
-        return HttpResponseForbidden('У Вас недостаточно прав для редактирования задач')
+        return HttpResponseForbidden('У Вас недостаточно прав для редактирования решений')
 
     sol = Solution.objects.get(id=sol_id)
     solform = SolutionForm(request.POST or None, initial={'body': sol.body, 'name': sol.name})
@@ -57,6 +57,7 @@ def mathattr_tree(request):
 
     return HttpResponse(treeJson, content_type='json')
 
+
 def solattr_tree(request, sol_id=0):
     sol = Solution.objects.get(id=sol_id)
     solattrtree = makeSolAttrTree(sol)
@@ -66,6 +67,7 @@ def solattr_tree(request, sol_id=0):
     treeJson = json.dumps(tree, ensure_ascii=False)
 
     return HttpResponse(treeJson, content_type='json')
+
 
 @user_passes_test(editor_check)
 def add_attr_to_sol(request):

@@ -1,5 +1,6 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
 import json
 
@@ -8,11 +9,15 @@ from apps.Edit_Source_Catalog.lib import makeChapterTree_node, makeSourceTree_no
 from apps.Edit_Task.forms import TaskForm
 from apps.Edit_Task.lib import makeTaskSourceTree, makeSourceTree, makeChapterTree
 from apps.Main.constants import path
+from apps.Main.decorators import editor_check
 from apps.Main.models import TaskNumber, Task, Solution, Source_Folder, Chapter, Source
 
 import os
 
 def main_page(request, task_id):
+    if not editor_check(request.user):
+        return HttpResponseForbidden('У Вас недостаточно прав для редактирования задач')
+
     task = Task.objects.get(id=task_id)
     taskform = TaskForm(request.POST or None, initial={'body':task.body, 'ans':task.ans})
     taskform.is_valid()
@@ -74,6 +79,7 @@ def tasksource_tree(request, task_id=0):
     return HttpResponse(treeJson, content_type='json')
 
 
+@user_passes_test(editor_check)
 def delete_tasknumber_from_task(request):
 
     data = request.POST
@@ -90,6 +96,7 @@ def delete_tasknumber_from_task(request):
     return HttpResponse('hi')
 
 
+@user_passes_test(editor_check)
 def add_task_number_to_task(request):
 
     data = request.POST
@@ -107,6 +114,7 @@ def add_task_number_to_task(request):
     return HttpResponse('hi')
 
 
+@user_passes_test(editor_check)
 def deletetask(request, task_id=0):
     task = Task.objects.get(id=task_id)
     Solution.objects.all().filter(task = task).delete()
@@ -125,6 +133,7 @@ def show_tasks(request):
                   {'path': path, 'tasks': tasks, 'solutions_set': solutions_set})
 
 
+@user_passes_test(editor_check)
 def save_task(request):
     data = json.loads(request.POST['data'])
 
@@ -137,6 +146,7 @@ def save_task(request):
     return HttpResponse('{}')
 
 
+@user_passes_test(editor_check)
 def create_new_solution(request):
     data = json.loads(request.POST['data'])
 
@@ -149,6 +159,8 @@ def create_new_solution(request):
 
     return HttpResponse('{}')
 
+
+@user_passes_test(editor_check)
 def delete_solution(request):
     data = json.loads(request.POST['data'])
 
