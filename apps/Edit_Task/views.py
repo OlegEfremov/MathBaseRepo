@@ -14,6 +14,7 @@ from apps.Main.models import TaskNumber, Task, Solution, Source_Folder, Chapter,
 
 import os
 
+
 def main_page(request, task_id):
     if not editor_check(request.user):
         return HttpResponseForbidden('У Вас недостаточно прав для редактирования задач')
