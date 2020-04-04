@@ -11,7 +11,7 @@ from apps.Main.models import Solution_Folder
 def sol_tree_root(folder_id):
     sol_folder = Solution_Folder.objects.get(id=folder_id)
     while sol_folder.parent is not None:
-        sol_folder = Solution_Folder.objects.get(id=sol_folder.parent)
+        sol_folder = Solution_Folder.objects.get(id=sol_folder.parent.pk)
 
     return sol_folder
 
