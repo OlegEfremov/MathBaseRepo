@@ -25,7 +25,7 @@ $(function () {
 
 								return false
 						},
-                        "label": "Rename",
+                        "label": "Переименовать",
                         "action": function (data) {
                             let inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
@@ -45,7 +45,7 @@ $(function () {
 
 								return false
 						},
-                        "label": "Delete",
+                        "label": "Удалить",
                         "action": function (data) {
                             let inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
@@ -60,7 +60,7 @@ $(function () {
                     "cut": {
                         "separator_before": true,
                         "separator_after": false,
-                        "label": "Cut",
+                        "label": "Вырезать",
                         "_disabled": function (data) {
                             let inst = $.jstree.reference(data.reference),
                             node = inst.get_node(data.reference);
@@ -84,7 +84,7 @@ $(function () {
                         "separator_before": false,
                         "icon": false,
                         "separator_after": false,
-                        "label": "Copy",
+                        "label": "Копировать",
 						"_disabled": function (data) {
                             let inst = $.jstree.reference(data.reference),
                             node = inst.get_node(data.reference);
@@ -111,7 +111,7 @@ $(function () {
                             return !$.jstree.reference(data.reference).can_paste();
                         },
                         "separator_after": false,
-                        "label": "Paste",
+                        "label": "Вставить",
                         "action": function (data) {
                             let inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
