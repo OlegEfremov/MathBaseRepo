@@ -41,7 +41,7 @@ $(function() {
                             if (node['a_attr']['dbType'] === 'TaskNumber'){return true}
                             return false
                         },
-                        "label": "Import",
+                        "label": "Импорт",
                         "action": function (data) {
                             import_tasks_show_modal()
                         }
@@ -56,7 +56,7 @@ $(function() {
                             if (node['a_attr']['dbType'] === 'TaskNumber'){return true}
                             return false
                         },
-                        "label": "New_Child_Chapter",
+                        "label": "Новая глава-потомок",
                         "action": function (data) {
                             create_chapter()
                         }
@@ -65,7 +65,7 @@ $(function() {
                         "separator_before": false,
                         "separator_after": false,
                         "_disabled": false,
-                        "label": "Rename",
+                        "label": "Переименовать",
                         "action": function (data) {
                             var inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
@@ -89,7 +89,7 @@ $(function() {
 
                             return false
                         },
-                        "label": "Delete from DB",
+                        "label": "Удалить из БД",
                         "action": function (data) {
                             var inst = $.jstree.reference(data.reference),
                             node = inst.get_node(data.reference);
@@ -117,7 +117,7 @@ $(function() {
 
                             return false
                         },
-                        "label": "Remove from folder",
+                        "label": "Удалить из папки",
                         "action": function (data) {
                             var inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
@@ -132,7 +132,7 @@ $(function() {
                     "cut": {
                         "separator_before": true,
                         "separator_after": false,
-                        "label": "Cut",
+                        "label": "Вырезать",
                         "_disabled": function (data) {
                             var inst = $.jstree.reference(data.reference),
                             node = inst.get_node(data.reference),
@@ -158,7 +158,7 @@ $(function() {
                         "separator_before": false,
                         "icon": false,
                         "separator_after": false,
-                        "label": "Copy",
+                        "label": "Копировать",
                         "_disabled": function (data) {
                             var inst = $.jstree.reference(data.reference),
                             node = inst.get_node(data.reference),
@@ -187,7 +187,7 @@ $(function() {
                             return !$.jstree.reference(data.reference).can_paste();
                         },
                         "separator_after": false,
-                        "label": "Paste",
+                        "label": "Вставить",
                         "action": function (data) {
                             var inst = $.jstree.reference(data.reference),
                                 obj = inst.get_node(data.reference);
