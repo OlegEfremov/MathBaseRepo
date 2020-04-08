@@ -7,6 +7,21 @@
 from apps.Main.models import Solution_Folder
 
 
+# Вывод в файл произвольной записи
+def log_file(st):
+    f = open("debuglog.txt", "a")
+    try:
+        if type(st) == int:
+            s = str(st)
+        else:
+            s = st
+
+        f.write(s)
+        f.write('\n')
+    finally:
+        f.close()
+
+
 # Возвращает корневой каталог дерева решений
 def sol_tree_root(folder_id):
     sol_folder = Solution_Folder.objects.get(id=folder_id)

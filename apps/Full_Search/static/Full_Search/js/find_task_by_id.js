@@ -1,5 +1,7 @@
-function find_task_by_id() {
+function find_task_by_id(sw) {
+    debugger;
     var task_id = document.getElementById('find_task_by_id_input').value;
+    if (sw !== undefined) {task_id = document.getElementById('find_by_task_id_input').value;}
 
     $.ajax({
         url: "find_task_by_id",

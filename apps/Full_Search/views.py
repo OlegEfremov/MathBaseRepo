@@ -7,7 +7,7 @@ from django.shortcuts import render
 from apps.Full_Search.lib import make_attr_tree, filterQuery, makeMathAttributeTree
 from apps.Main.constants import path
 from apps.Main.models import MathAttribute_Folder, Solution, MathAttribute, Task
-from apps.Main.decorators import admin_check
+from apps.Main.decorators import admin_check, log_file
 from django.contrib.auth.decorators import user_passes_test
 
 def user_main_page(request):
@@ -97,6 +97,7 @@ def is_int(s):
 def find_task_by_id(request):
 
     task_id = request.POST['task_id']
+    log_file("post: " + task_id)
 
     if not is_int(task_id):
         all_tasks = Task.objects.all().filter(id=0)
@@ -111,6 +112,9 @@ def find_task_by_id(request):
 
     tasks = all_tasks
     sols = solutions
+
+    for ts in tasks:
+        log_file("task id: "+str(ts.pk))
 
     return render(request, 'Table_Of_Tasks/table_of_tasks.html',
                       {'another_solutions': another_solutions, 'all_sols': all_sols,
