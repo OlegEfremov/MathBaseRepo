@@ -96,6 +96,7 @@ function massive_action() {
 }
 
 function massive_copy() {
+    crm_action_type = 'copy_stars';
     document.getElementById('confirm_button').innerHTML = 'Копировать';
     document.getElementById('choose_target_folder_ModalLabel').innerHTML = 'В какую папку копировать выбранные задачи и решения?';
     $('#choose_target_folder_modal').modal('show');
