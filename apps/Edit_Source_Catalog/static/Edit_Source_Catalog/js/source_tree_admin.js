@@ -166,6 +166,7 @@ $(function() {
                             parent = inst.get_node(parent_jstree_id);
 
                             if (node['a_attr']['dbType'] === "TaskNumber"){return true}
+                            if (node['a_attr']['dbType'] === "Chapter"){return true}
 
                             return false
                         },
