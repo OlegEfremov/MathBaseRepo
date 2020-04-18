@@ -1,6 +1,7 @@
 import random
 
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -9,7 +10,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 
 from apps.Main.constants import path
-from apps.Main.decorators import reader_check
+from apps.Main.decorators import reader_check, editor_check
 from apps.Main.lib import get_current_user
 from apps.Main.models import Test_Generated, Solution_Folder, Task, Solution, Test_Template, Test_Folder
 from apps.Main.py.Test_Folder.test_folder_tree import get_user_test_folder_root
@@ -402,9 +403,14 @@ def  open_test_answers(request):
     return HttpResponse('{}')
 
 
-class TestTemplateUpdateView(UpdateView):
+# Класс формы редактирования шаблонов тестов задач
+class TestTemplateUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'Test_Generated/template_update.html'
     model = Test_Template
     form_class = TestTemplateForm
     success_url = reverse_lazy(test_from_many_folders)
+
+    # доступ только editor и выше
+    def test_func(self):
+        return editor_check(self.request.user)
 
