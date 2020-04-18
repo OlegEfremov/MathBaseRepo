@@ -5,6 +5,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView
+
 from apps.Main.constants import path
 from apps.Main.decorators import reader_check
 from apps.Main.lib import get_current_user
@@ -13,6 +16,9 @@ from apps.Main.py.Test_Folder.test_folder_tree import get_user_test_folder_root
 from apps.Solution_Catalog.views import make_solution_folders_tree
 
 import json
+
+from apps.Test_Generated.forms import TestTemplateForm
+
 
 def view_test(request, test_id):
 
@@ -394,3 +400,11 @@ def  open_test_answers(request):
     test.save()
 
     return HttpResponse('{}')
+
+
+class TestTemplateUpdateView(UpdateView):
+    template_name = 'Test_Generated/template_update.html'
+    model = Test_Template
+    form_class = TestTemplateForm
+    success_url = reverse_lazy(test_from_many_folders)
+

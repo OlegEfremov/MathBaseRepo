@@ -61,7 +61,7 @@ urlpatterns = [
     re_path(r'^$', include('apps.Main.urls')),
     re_path(r'export', include('apps.Export.urls')),
     re_path(r'beloved_cat', include('apps.BelovedCat.urls')),
-    re_path(r'test_generated', include('apps.Test_Generated.urls')),
+    re_path(r'test_generated/', include('apps.Test_Generated.urls')),
     re_path(r'download_dynamic_text', download_dynamic_text),
 
     re_path(r'count_checkboxes', count_checkboxes),

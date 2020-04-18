@@ -1,0 +1,33 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование шаблона теста</title>
+    {% include 'head_script.html' %}
+
+</head>
+
+<body>
+    {% include "inc_sidebar_begin.html" %}
+    <div>
+        Редактирование Шаблона теста № {{ test_template.name }}.
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-auto">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Изменить">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

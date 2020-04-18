@@ -197,13 +197,13 @@ class Solution_Folder(MPTTModel):
 
 class Test_Template(models.Model):
 
-    name = models.CharField(max_length=1000, default='DEFAULT_TEST_TEMPLATE')
-    comment = models.TextField(default='', blank=True)
+    name = models.CharField(max_length=1000, default='DEFAULT_TEST_TEMPLATE', verbose_name="Имя шаблона")
+    comment = models.TextField(default='', blank=True, verbose_name="Комментарий")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    folders_and_numbers = models.TextField(default='', blank=True)
-    is_permanent = models.BooleanField(default=True)
+    folders_and_numbers = models.TextField(default='', blank=True, verbose_name="Папки и номера задач")
+    is_permanent = models.BooleanField(default=True, verbose_name="Постоянно")
     is_archived = models.BooleanField(default=False)
 
     def __str__(self):

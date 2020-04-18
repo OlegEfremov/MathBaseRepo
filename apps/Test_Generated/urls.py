@@ -1,11 +1,12 @@
-from django.urls import re_path
+from django.urls import re_path, path
 
 from apps.Solution_Catalog.views import get_user_tree
 from apps.Test_Generated.views import view_test, test_from_many_folders, create_test_from_many_folders, make_new_test, \
     created_tests, create_test_from_cart, create_test_template, create_test_by_template, save_test_name_and_comment, \
-    recompile_test, archive_test, random_change_task_in_test, open_test_answers
+    recompile_test, archive_test, random_change_task_in_test, open_test_answers, TestTemplateUpdateView
 
 urlpatterns = [
+    re_path(r'template_update_(?P<pk>\d+)', TestTemplateUpdateView.as_view(), name='template_update'),
     re_path(r'(?P<test_id>\d+)', view_test),
     re_path(r'recompile_test', recompile_test),
     re_path(r'create_test_from_many_folders', create_test_from_many_folders),
