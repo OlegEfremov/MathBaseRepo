@@ -1,0 +1,33 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка рисунков</title>
+    {% include 'head_script.html' %}
+
+</head>
+
+<body>
+    {% include "inc_sidebar_begin.html" %}
+    <div>
+        Загрузить рисунок<br>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-auto">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Загрузить">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {% include "inc_sidebar_end.html" %}
+
+</body>
+</html>

@@ -1,10 +1,13 @@
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.http import HttpResponse, JsonResponse, FileResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 import json
 import re
 
 # Create your views here.
+from django.urls import reverse
+
+from apps.Edit_Task.forms import TaskImagesUploadForm, SolutionImagesUploadForm
 from apps.Main.constants import path
 from apps.Main.lib import get_current_user
 from apps.Main.models import Solution, Task, Star_Folder
@@ -273,3 +276,36 @@ def export_as_file(request):
     # remove folder
     shutil.rmtree(path)
     return res
+
+
+# Загрузка рисунков условий задач
+def task_image_upload(request, task_id):
+    form = TaskImagesUploadForm()
+    if request.method == 'POST':
+        form = TaskImagesUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            frm = form.save(commit=False)
+            frm.task = Task.objects.get(pk=task_id)
+            frm.save()
+            return HttpResponseRedirect(reverse("task_main_page", args=[task_id]))
+        else:
+            return HttpResponse("Ошибка проверки ввода")
+
+    else:
+        context = {"form": form, 'task_id': task_id}
+        return render(request, 'Main/image_upload.html',  context)
+
+
+# Загрузка рисунков решений
+def sol_image_upload(request, sol_id):
+    form = SolutionImagesUploadForm()
+    if request.method == 'POST':
+        form = SolutionImagesUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            frm = form.save(commit=False)
+            frm.solution = sol_id
+            frm.save()
+            return HttpResponseRedirect(reverse("sol_image_upload"))
+    else:
+        context = {"form": form}
+        return render(request, 'Main/image_upload.html',  context)

@@ -54,7 +54,19 @@
                 </div>
                 <form method="post">
                     {% csrf_token %}
-                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Вставить рисунок" onclick="typeInTextarea($('#id_body'), '@bimg@path_to_picture@size=170@style=display: block; margin-left: auto; margin-right: auto;@eimg@')" id="insert_pic_button"><i class="fas fa-image"></i></button><br>
+<!--                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Вставить рисунок" onclick="typeInTextarea($('#id_body'), '@bimg@path_to_picture@size=170@style=display: block; margin-left: auto; margin-right: auto;@eimg@')" id="insert_pic_button"><i class="fas fa-image"></i></button> -->
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="insert_pic_button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Вставить рисунок
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="insert_pic_button">
+                            {% for ti in task_images %}
+                                <a class="dropdown-item" onclick="typeInTextarea($('#id_body'), '@bimg@{{ MR }}{{ ti.image }}@size=170@style=display: block; margin-left: auto; margin-right: auto;@eimg@')" href="#">{{ ti.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <input type="button" class="btn btn-primary" id="task_upload_btn" value="Загрузить рисунок" onclick='location.href ="{% url 'task_image_upload' task.id %}"'><br><br>
                     Условие: {{ taskform.body }}<br>
                     Ответ: {{ taskform.ans }}<br>
                     <input type="button" class="btn btn-primary" value="Cохранить" onclick="save_task(taskid)"><br><br>

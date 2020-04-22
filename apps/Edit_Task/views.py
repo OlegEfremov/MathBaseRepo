@@ -5,12 +5,13 @@ from django.shortcuts import render, redirect
 import json
 
 # Create your views here.
+from LBBASE_v_0_40.settings import MEDIA_ROOT, MEDIA_URL
 from apps.Edit_Source_Catalog.lib import makeChapterTree_node, makeSourceTree_node, makeSourceFolderTree_node
 from apps.Edit_Task.forms import TaskForm
 from apps.Edit_Task.lib import makeTaskSourceTree, makeSourceTree, makeChapterTree
 from apps.Main.constants import path
 from apps.Main.decorators import editor_check
-from apps.Main.models import TaskNumber, Task, Solution, Source_Folder, Chapter, Source
+from apps.Main.models import TaskNumber, Task, Solution, Source_Folder, Chapter, Source, UploadedTaskImages
 
 import os
 
@@ -31,8 +32,11 @@ def main_page(request, task_id):
 
     task = Task.objects.get(id=task_id)
     all_solutions = Solution.objects.all()
+    task_images = UploadedTaskImages.objects.all().filter(task=task)
+    mr = MEDIA_URL
 
-    return render(request, 'Edit_Task/main_page.html', {'task': task, 'tasks': [task], 'taskform':taskform, 'path': path, 'solutions_set': all_solutions})
+    return render(request, 'Edit_Task/main_page.html', {'task': task, 'tasks': [task], 'taskform':taskform, 'path': path, 'solutions_set': all_solutions,
+                                                        'task_images': task_images, 'MR': mr})
 
 
 def source_tree(request):

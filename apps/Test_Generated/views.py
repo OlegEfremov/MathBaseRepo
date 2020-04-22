@@ -2,11 +2,11 @@ import random
 
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView
 
 from apps.Main.constants import path
@@ -414,3 +414,28 @@ class TestTemplateUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         return editor_check(self.request.user)
 
+
+# Удаление шаблона теста задач
+@user_passes_test(editor_check)
+def delete_template_task(request, pk):
+    delete_template_from_db(pk)
+    # return reverse(test_from_many_folders)
+    return HttpResponseRedirect(reverse("test_from_many_folders"))
+
+
+# Удаление шаблона теста из БД
+# @user_passes_test(editor_check)
+def delete_template_from_db(test_template_id):
+#    rec = Test_Generated.objects.get(id=test_template_id)
+    print(test_template_id)
+    rec = get_object_or_none(Test_Template, id=test_template_id)
+
+    if rec is not None:
+        rec.delete()
+
+
+def get_object_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except (model.DoesNotExist, model.MultipleObjectsReturned) as err:
+        return None

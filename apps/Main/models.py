@@ -259,9 +259,6 @@ class Test_Folder(MPTTModel):
         pass
 
 
-
-
-
 class Star_Folder(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=False)
@@ -309,5 +306,19 @@ class Star_Folder(models.Model):
         return tasks
 
 
+# Загружаемые рисунки условий задач
+class UploadedTaskImages(models.Model):
+
+    task = models.ForeignKey(Task, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='task_images/%Y/%m/%d/')
+    name = models.CharField(max_length=200, blank=False)
+
+
+# Загружаемые рисунки решений
+class UploadedSolImages(models.Model):
+
+    solution = models.ForeignKey(Solution, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='sol_images/%Y/%m/%d/')
+    name = models.CharField(max_length=200, blank=False)
 
 

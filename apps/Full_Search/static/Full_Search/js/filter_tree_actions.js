@@ -10,5 +10,5 @@ function set_node_type(newType, node = false) {
    }
 
 function create_new_node() {
-	$('#filter_tree').jstree().create_node('j2_1', {'type':'AND', 'text':'Группа условий'});
+	$('#filter_tree').jstree().create_node('j3_1', {'type':'AND', 'text':'Группа условий'});
    }
