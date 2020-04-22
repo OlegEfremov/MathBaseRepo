@@ -39,5 +39,4 @@ urlpatterns = [
     re_path(r'delete_node_from_db', delete_node_from_db),
     re_path(r'remove_node_from_folder', remove_node_from_folder),
     re_path(r'task_image_upload_(?P<task_id>\d+)', task_image_upload, name="task_image_upload"),
-    re_path(r'sol_image_upload_(?P<sol_id>\d+)', sol_image_upload, name="sol_image_upload"),
 ]

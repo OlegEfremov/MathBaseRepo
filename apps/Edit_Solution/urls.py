@@ -5,10 +5,10 @@ from apps.Edit_Solution.views import main_page, mathattr_tree, solattr_tree, del
 
 from apps.Edit_MathAttribute_Catalog.views import rename_node, copy_node, move_node, create_node, delete_node_from_db, remove_node_from_folder, \
     create_mathattr_folder, create_mathattr
-
+from apps.Main.views import sol_image_upload
 
 urlpatterns = [
-    re_path(r'main_page_(?P<sol_id>\d+)', main_page),
+    re_path(r'main_page_(?P<sol_id>\d+)', main_page, name="sol_main_page"),
 
     re_path(r'mathattr_tree', mathattr_tree),
     re_path(r'solattr_tree/(?P<sol_id>\d+)', solattr_tree),
@@ -26,6 +26,7 @@ urlpatterns = [
     re_path(r'remove_node_from_folder', remove_node_from_folder),
     re_path(r'create_mathattr_folder', create_mathattr_folder),
     re_path(r'create_mathattr', create_mathattr),
+    re_path(r'sol_image_upload_(?P<sol_id>\d+)', sol_image_upload, name="sol_image_upload"),
 
 ]
 

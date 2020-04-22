@@ -14,12 +14,6 @@ class TaskImagesUploadForm(forms.ModelForm):
     class Meta:
         model = UploadedTaskImages
         fields = ['name', 'image']
-#        widgets = {'task': forms.HiddenInput()}
 
 
-# Форма загрузки рисунков для решений
-class SolutionImagesUploadForm(forms.ModelForm):
-    class Meta:
-        model = UploadedSolImages
-        fields = ['name', 'image']
 

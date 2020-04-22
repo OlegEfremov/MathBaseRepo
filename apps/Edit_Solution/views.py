@@ -4,12 +4,13 @@ from django.shortcuts import render
 import json
 
 # Create your views here.
+from LBBASE_v_0_40.settings import MEDIA_URL
 from apps.Edit_MathAttribute_Catalog.views import makeAttributeTree
 from apps.Edit_Solution.forms import SolutionForm
 from apps.Edit_Solution.lib import makeSolAttrTree
 from apps.Main.constants import path
 from apps.Main.decorators import editor_check
-from apps.Main.models import Solution, MathAttribute, MathAttribute_Folder
+from apps.Main.models import Solution, MathAttribute, MathAttribute_Folder, UploadedSolImages
 
 
 def main_page(request, sol_id):
@@ -26,11 +27,13 @@ def main_page(request, sol_id):
 
     sol = Solution.objects.get(id=sol_id)
     tasks = [sol.task]
+    sol_images = UploadedSolImages.objects.all().filter(solution=sol)
+    mr = MEDIA_URL
 
     solutions_set = [sol]
 
-
-    return render(request, 'Edit_Solution/main_page.html', {'tasks': tasks, 'solutions_set': solutions_set, 'sol': sol, 'solform': solform, 'path': path})
+    return render(request, 'Edit_Solution/main_page.html', {'tasks': tasks, 'solutions_set': solutions_set, 'sol': sol, 'solform': solform, 'path': path,
+                                                            'MR': mr, 'sol_images': sol_images})
 
 
 @user_passes_test(editor_check)

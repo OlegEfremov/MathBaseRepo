@@ -7,7 +7,8 @@ import re
 # Create your views here.
 from django.urls import reverse
 
-from apps.Edit_Task.forms import TaskImagesUploadForm, SolutionImagesUploadForm
+from apps.Edit_Task.forms import TaskImagesUploadForm
+from apps.Edit_Solution.forms import SolutionImagesUploadForm
 from apps.Main.constants import path
 from apps.Main.lib import get_current_user
 from apps.Main.models import Solution, Task, Star_Folder
@@ -303,9 +304,9 @@ def sol_image_upload(request, sol_id):
         form = SolutionImagesUploadForm(request.POST, request.FILES)
         if form.is_valid():
             frm = form.save(commit=False)
-            frm.solution = sol_id
+            frm.solution = Solution.objects.get(pk=sol_id)
             frm.save()
-            return HttpResponseRedirect(reverse("sol_image_upload"))
+            return HttpResponseRedirect(reverse("sol_main_page", args=[sol_id]))
     else:
         context = {"form": form}
         return render(request, 'Main/image_upload.html',  context)
