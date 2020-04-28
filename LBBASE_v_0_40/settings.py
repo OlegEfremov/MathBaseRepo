@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#    'apps.Main.middleware.CompileImageCode',
 ]
 
 ROOT_URLCONF = 'LBBASE_v_0_40.urls'

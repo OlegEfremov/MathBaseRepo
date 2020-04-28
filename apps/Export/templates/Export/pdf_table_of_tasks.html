@@ -1,0 +1,116 @@
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!--    include "head_script.html" %}  -->
+
+    <!-- This line adds MathJax to the page with default SVG output -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+        });
+    </script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG">
+    </script>
+
+    <style> .vakata-context {z-index:1100 !important;} </style>
+</head>
+<body>
+
+<table class="table" id="task_table">
+    {% for task in tasks %}
+        <tr id = "{{ task.id }}" class="task">
+            <td>
+                <b><span id="order_number_{{ task.id }}">№{{ forloop.counter }}</span> <span class="id_number" style="display: {{ checkboxes.id_number }}">(id-{{ task.id }}).</span></b>
+                <br>
+                <span class="task_body" style="display: {{ checkboxes.task_body }}">{% autoescape off %}{{ taskbodies|hashd:task.id }}{% endautoescape %}</span>
+                <br>
+            <div class="answer" style="display: {{ checkboxes.answer }}">
+                Ответ: {{ task.ans }}
+                <br>
+            </div>
+
+            {% if request.user|has_group:"Admins" %}
+            <div class="sources" style="display: {{ checkboxes.sources }}">
+                Источники:
+                {% for tasknumber in task.taskNumber.all %}
+                    {% if forloop.last %}
+                        {{ tasknumber.source }}, №{{ tasknumber.body }}.
+                    {% else %}
+                        {{ tasknumber.source }}, №{{ tasknumber.body }};
+                    {% endif %}
+                {% endfor %}
+                <br>
+            </div>
+            {% endif %}
+
+            <div class="solutions" style="display: {{ checkboxes.solutions }}">
+                {% for sol in task.solutions.all %}
+                    {% if sol in solutions_set %}
+                        <div class="solution" id="{{ sol.id }}">
+                            {{ sol.name }}<br>
+                            {% autoescape off %}{{ solbodies|hashd:sol.id }}{% endautoescape %}
+
+                            <div class="mathattr" style="display: {{ checkboxes.mathattr }}">
+                            {% if not sol.mathAttribute.all  %}
+                                Решению не присвоены атрибуты.
+                            {% else %}
+                                {{ sol.mathAttribute.all|join:", " }}
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+
+            <div class="another_solutions" style="display: {{ checkboxes.another_solutions }}">
+            {% load table_of_tasks_tags %}
+            {% if task.solutions.all|has_another_sols:solutions_set %}
+                Другие решения: <br>
+                {% for sol in task.solutions.all %}
+                    {% if sol not in solutions_set %}
+                        <div class="another_solution" id="{{ sol.id }}">
+                            {{ sol.name }}<br>
+                            {% autoescape off %}{{ solbodies|hashd:sol.id }}{% endautoescape %}
+
+                            <div class="mathattr" style="display: {{ checkboxes.mathattr }}">
+                            {% if not sol.mathAttribute.all  %}
+                                Решению не присвоены атрибуты.
+                            {% else %}
+                                {{ sol.mathAttribute.all|join:", " }}
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </div>
+            </td>
+
+        </tr>
+    {% endfor %}
+</table>
+
+
+
+    <div class="ans_table" style="display: {{ checkboxes.ans_table }}">
+        <table class="table-bordered table-sm" id="ans_table">
+            {% for task in tasks %}
+                <tr id = "task{{ task.id }}">
+                    <td style="width:1px;white-space:nowrap;">
+                        <b><span id="ans_order_number_task{{ task.id }}">№{{ forloop.counter }}</span> <span class="id_number" style="display: {{ checkboxes.id_number }}">(id-{{ task.id }}).</span></b>
+                    </td>
+                    <td style="width:1px;white-space:nowrap;">
+                        {{ task.ans }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+<!--  include "footer_script.html" %} -->
+</body>
+</html>

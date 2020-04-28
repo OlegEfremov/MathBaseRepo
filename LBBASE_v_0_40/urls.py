@@ -59,7 +59,7 @@ urlpatterns = [
     path(r'edit_task/', include('apps.Edit_Task.urls')),
     path(r'edit_source_catalog/', include('apps.Edit_Source_Catalog.urls')),
     re_path(r'^$', include('apps.Main.urls')),
-    re_path(r'export', include('apps.Export.urls')),
+    re_path(r'export/', include('apps.Export.urls')),
     re_path(r'beloved_cat', include('apps.BelovedCat.urls')),
     re_path(r'test_generated/', include('apps.Test_Generated.urls')),
     re_path(r'download_dynamic_text', download_dynamic_text),
