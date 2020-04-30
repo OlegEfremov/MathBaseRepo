@@ -9,14 +9,6 @@ from django.urls import reverse
 from LBBASE_v_0_40.settings import PROJECT_ROOT
 
 
-def img_to_html(html):
-    s = html.replace('@bimg@', '<img src="')
-    s = s.replace('@size=', '" height="')
-    s = s.replace('@style=', '" style="')
-    s = s.replace('@eimg@', '"/>')
-    return s
-
-
 class Pdfcrow:
 
 # работает но не выводит рисунки а таблицы выводит без линий
@@ -45,7 +37,7 @@ class Pdfcrow:
                                 content_type='text/plain')
 
 # не работает ошибка navigate filed. Обычный рендеринг страницы на экран (не пдф) работает полностью
-@staticmethod
+    @staticmethod
     def convert(request):
         try:
             # create the API client instance

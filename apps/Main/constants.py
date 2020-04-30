@@ -17,3 +17,8 @@ MATH_TYPE = (
 # This arrays need for filterQuerry
 NODE_MATH_TYPE = ['MathAttr']
 NODE_MATH_TYPE_EXCLUDE = ['EXCLUDE_MathAttr']
+
+# пароль для вызова страницы списка задач избранного
+PASS_PDF = "Rtb90.DFg56901qFG"
+# список id галочек на странице избранного передаваемые как параметр в страницу списка задач
+LIST_CHECKBOXES = ('id_number', 'task_body', 'sources', 'answer', 'solutions', 'another_solutions', 'mathattr', 'ans_table')

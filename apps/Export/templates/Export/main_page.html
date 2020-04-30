@@ -44,7 +44,7 @@
         <div class="row">
             <button onclick='download()'>Экспорт в ТеХ</button>
             <script src="{{ path.PROJECT_STATIC }}Main/export_as_file.js?dmnh"></script>
-            <button onclick='location.href ="{% url 'show_tasks_for_pdf' %}"'>Экспорт в pdf</button>
+            <button onclick='location.href ="{% url 'phantomjs_to_pdf' %}"'>Экспорт в pdf</button>
                 {% if user.is_authenticated %}
                     <button onclick='copy_cart_to_folder()'>Копировать в свой каталог</button>
                     <button onclick='print()'>Печать</button>
