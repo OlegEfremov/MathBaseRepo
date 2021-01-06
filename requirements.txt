@@ -1,6 +1,6 @@
 asn1crypto==0.24.0
 bcrypt==3.1.4
-CairoSVG==2.2.1
+CairoSVG==2.5.1
 cffi==1.11.4
 colorama==0.3.9
 configparser==3.5.0
